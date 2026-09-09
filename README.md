@@ -21,8 +21,8 @@
 | Name | Characteristics | Needs and Expectations | How will they use the system? |
 |---|---|---|---|
 | *Kerstin* | *71 years old, retired and lives alone. Low technical skill level.* | *Needs falls to be detected and logged to track progress.* | *Wears the device on her belt, or pants. Sometimes checking the history of her falls.* |
-| *Kalle* | *40, good technical skill level.* | *Needs the device to track his mother declining physical health.* | *Checks his mothers mobile application to look at her fall history and patterns.* |
-| *John* | *26, works in construction, average technical skill level.* | *Wants an automatic alert if he is hit by something or falls.* | *Wears the device on his belt during work, he relies on the alert function.* |
+| *Kalle* | *40, works in health care. Good technical skill level.* | *Wants to stay informed about his patient's physical health and safety over time.* | *Looks through the fall history directly on the patient's phone during a health checkup.* |
+| *John* | *26, professional mountain biker, average technical skill level.* | *Wants to track his falls/crashes during training sessions.* | *Wears the device on his belt during training, he relies on the device logging falls/crashes locally, without internet connection.* |
 
 ### Software Requirements
 
