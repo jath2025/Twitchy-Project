@@ -2,26 +2,35 @@
 
 ## Project Description
 
-**Project Name:** *[Your project name]*
+**Project Name:** *Twitchy*
 
-**Customer Name:** *[Your customer's name]*
+**Customer Name:** *Fredrik Gullbrandson*
 
-**Student Full Name:** *[Your full name. This helps match your repository to you, even if your GitHub handle does not identify you.]*
+**Student Full Name:** *Jacob Thörn*
 
 ### Project Aim and Objectives
 
-*[A short description of your project's goals and benefits. Bullet points or 1–2 paragraphs.]*
+*Twitchy is a small wearable device that with the help of a mobile application is designed to detect and track falls/impacts of the user. The main features are:* 
+* Immediate alerts when a fall/impact is detected.
+* Offers the user a history of historical falls/impacts.
+* Low chance of false positives due to multiple sensors.
+* Comfortable and unrestricting of day to day life.
 
 ### User Personas
 
 | Name | Characteristics | Needs and Expectations | How will they use the system? |
 |---|---|---|---|
+| *Kerstin* | *71 years old, retired and lives alone. Low technical skill level.* | *Needs falls to be detected and logged to track progress.* | *Wears the device on her belt, or pants. Sometimes checking the history of her falls.* |
+| *Kalle* | *40, good technical skill level.* | *Needs the device to track his mother declining physical health.* | ** |
 | *[Name]* | *[Age, background, technical skill level, etc.]* | *[What they need from the system]* | *[How they'll interact with it]* |
 
 ### Software Requirements
 
 **Functional Requirements**
-- *[Requirement 1]*
+- *The device should detect falls or hard impacts using data from accelerometer and gyroscope*
+- *To reduce false postives of a fall event a barometric pressure sensor is used to track distance*
+- *The device should allow the user to create a personal profile*
+- *The device handles continuous low-latency telemetry streaming over Bluetooth Low Energy (BLE)*
 - *[Requirement 2]*
 
 **Non-Functional Requirements**
