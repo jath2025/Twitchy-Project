@@ -21,21 +21,23 @@
 | Name | Characteristics | Needs and Expectations | How will they use the system? |
 |---|---|---|---|
 | *Kerstin* | *71 years old, retired and lives alone. Low technical skill level.* | *Needs falls to be detected and logged to track progress.* | *Wears the device on her belt, or pants. Sometimes checking the history of her falls.* |
-| *Kalle* | *40, good technical skill level.* | *Needs the device to track his mother declining physical health.* | ** |
-| *[Name]* | *[Age, background, technical skill level, etc.]* | *[What they need from the system]* | *[How they'll interact with it]* |
+| *Kalle* | *40, good technical skill level.* | *Needs the device to track his mother declining physical health.* | *Checks his mothers mobile application to look at her fall history and patterns.* |
+| *John* | *26, works in construction, average technical skill level.* | *Wants an automatic alert if he is hit by something or falls.* | *Wears the device on his belt during work, he relies on the alert function.* |
 
 ### Software Requirements
 
 **Functional Requirements**
 - *The device should detect falls or hard impacts using data from accelerometer and gyroscope*
-- *To reduce false postives of a fall event a barometric pressure sensor is used to track distance*
+- *To reduce false positives of a fall event a barometric pressure sensor is used to track distance*
 - *The device should allow the user to create a personal profile*
 - *The device handles continuous low-latency telemetry streaming over Bluetooth Low Energy (BLE)*
-- *[Requirement 2]*
+- *The system alerts the app in real time when an event such as a fall or hard impact happens*
 
 **Non-Functional Requirements**
-- *[Requirement 1]*
-- *[Requirement 2]*
+- *Alert should reach the app within 5 seconds of detection*
+- *User profile data stored on the phone must be encrypted*
+- *Pairing between the device and mobile application must be seamless and secure*
+- *The wearable device should be comfortable enough to be worn for long periods of time*
 
 ---
 
