@@ -10,8 +10,11 @@
 
 ### Project Aim and Objectives
 
-*Twitchy is a small wearable device that with the help of a mobile application is designed to detect and track falls/impacts of the user. The main features are:* 
-* Immediate alerts when a fall/impact is detected.
+*Twitchy is a small wearable device that with the help of a mobile application is designed to detect and track falls/hard impacts on the user. The device is fitted with an accelerometer, gyroscope and a barometric pressure sesor to get accurate readings with as little false positives as possible. The application features a section for viewing historical fall data and a real-time motion graph updating based on the incoming sensor data. To make the system reliable its mandetory to go through with a baseline calibration set up.*
+*Twitchy is designed for people with an intrest in tracking their own falls or impacts, that could vary all the way from eldery, healthcare professinonals or young and fit individuals who can implement the tracking in sports. The main features are:* 
+* A live motion graph that moves as you fall or get "close" to falling.
+* Live-updating visual effects of falls in the application, as well as a alert.
+* The ability to set a baseline and get accurate readings personal for you.
 * Offers the user a history of historical falls/impacts.
 * Low chance of false positives due to multiple sensors.
 * Comfortable and unrestricting of day to day life.
@@ -28,8 +31,9 @@
 
 **Functional Requirements**
 - *The device should detect falls or hard impacts using data from accelerometer and gyroscope*
+- *The application displays a live-updating motion graph based on sensor data*
 - *To reduce false positives of a fall event a barometric pressure sensor is used to track distance*
-- *The device should allow the user to create a personal profile*
+- *The device should allow the user to create a personal profile with a baseline calibration, so the system can track accurately*
 - *The device handles continuous low-latency telemetry streaming over Bluetooth Low Energy (BLE)*
 - *The system alerts the app in real time when an event such as a fall or hard impact happens*
 
