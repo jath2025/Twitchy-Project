@@ -1,6 +1,7 @@
 package com.jath.twitchy.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -9,8 +10,11 @@ import com.jath.twitchy.ui.history.HistoryScreen
 import com.jath.twitchy.ui.profile.ProfileScreen
 
 @Composable
-fun AppNavGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = Routes.DASHBOARD.path) {
+fun AppNavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
+    NavHost(navController = navController,
+        startDestination = Routes.DASHBOARD.path,
+        modifier = modifier
+        ) {
         composable(Routes.DASHBOARD.path) {
             DashboardScreen()
         }
