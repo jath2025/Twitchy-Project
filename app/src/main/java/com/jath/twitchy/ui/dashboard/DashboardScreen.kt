@@ -2,6 +2,7 @@ package com.jath.twitchy.ui.dashboard
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -9,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,7 +29,10 @@ fun DashboardScreen() {
     val gyroData = sensorData?.totalRotation() ?: 0f
     val baroData = sensorData?.altitude ?: BELT_HEIGHT
 
-    Column (modifier = Modifier.padding(horizontal = 16.dp)) {
+    Column (
+        modifier = Modifier
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+    ) {
         Text("Live Data",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold
@@ -38,20 +43,38 @@ fun DashboardScreen() {
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold
         )
-        // graph
+        MotionGraph(
+            newValue = accelData,
+            graphColor = Color.Red,
+            modifier = Modifier.weight(1f).fillMaxWidth(),
+            minValue = EARTH_GRAVITY,
+            maxValue = 25f
+        )
         Spacer(modifier = Modifier.height(8.dp))
 
         Text("Gyrometer: %.2f rad/s".format(gyroData),
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold
         )
-        // graph
+        MotionGraph(
+            newValue = gyroData,
+            graphColor = Color.Blue,
+            modifier = Modifier.weight(1f).fillMaxWidth(),
+            minValue = 0f,
+            maxValue = 20f
+        )
         Spacer(modifier = Modifier.height(8.dp))
 
         Text("Barometer: %.2f m".format(baroData),
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold
         )
-        // graph
+        MotionGraph(
+            newValue = baroData,
+            graphColor = Color.Yellow,
+            modifier = Modifier.weight(1f).fillMaxWidth(),
+            minValue = 0f,
+            maxValue = 14f
+        )
     }
 }
