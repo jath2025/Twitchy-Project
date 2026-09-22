@@ -15,15 +15,17 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jath.twitchy.data.mock.MockDataSource
 
+private const val EARTH_GRAVITY = 9.81f
+private const val BELT_HEIGHT = 0.8f
+
 @Composable
 fun DashboardScreen() {
     val dataSource = remember { MockDataSource() }
     val sensorData by dataSource.getMockData().collectAsStateWithLifecycle(initialValue = null)
 
-    // 9.81f standard earth gravitational acceleration, 0.8 for belt height
-    val accelData = sensorData?.totalAcceleration() ?: 9.81f
+    val accelData = sensorData?.totalAcceleration() ?: EARTH_GRAVITY
     val gyroData = sensorData?.totalRotation() ?: 0f
-    val baroData = sensorData?.altitude ?: 0.8f
+    val baroData = sensorData?.altitude ?: BELT_HEIGHT
 
     Column (modifier = Modifier.padding(horizontal = 16.dp)) {
         Text("Live Data",
