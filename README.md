@@ -38,10 +38,11 @@
 - *The system alerts the app in real time when an event such as a fall or hard impact happens*
 
 **Non-Functional Requirements**
-- *Alert should reach the app within 5 seconds of detection*
+- *A detected fall must be logged on the mobile application within 5 seconds of detection*
 - *User profile data stored on the phone must be encrypted*
-- *Pairing between the device and mobile application must be seamless and secure*
-- *The wearable device should be comfortable enough to be worn for long periods of time*
+- *Pairing between the device and mobile application must take no longer than 10 seconds*
+- *Pairing must also use some sort of secure handshake protocol (e.g. BLE passkey pairing or an app-specific token)*
+- *The wearable device should be comfortable and lightweight enough to be worn for at least half a day*
 
 ---
 
