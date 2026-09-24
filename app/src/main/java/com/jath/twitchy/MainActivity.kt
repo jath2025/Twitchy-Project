@@ -12,6 +12,8 @@ import androidx.navigation.compose.rememberNavController
 import com.jath.twitchy.ui.navigation.AppNavGraph
 import com.jath.twitchy.ui.navigation.BottomBar
 
+// To build the navigation modules Androids own documentation was used as a reference.
+// Source: https://developer.android.com/develop/ui/compose/components/navigation-bar
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
