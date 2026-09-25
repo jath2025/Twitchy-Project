@@ -1,10 +1,14 @@
 package com.jath.twitchy.ui.history
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Surface
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
@@ -33,17 +37,45 @@ fun HistoryScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        if (repo.getHistoryItems().isEmpty()) {
-            Text(
-                text = "No history available",
-                fontSize = 16.sp,
-                fontFamily = FontFamily.SansSerif,
-                color = Color.Black
-            )
-        } else {
-            for (item in repo.getHistoryItems()) {
-                Text(item.toString())
+    LazyColumn(
+        modifier = Modifier.weight(1f)
+    ) {
+        if (items.isEmpty()) {
+            item {
+                Text("No history")
             }
+        } else {
+            items(items.size) { index ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    val item = items[index]
+
+                    Text(
+                        "Fall id: ${item.id}, " +
+                        "Timestamp: ${item.timestamp}, " +
+                        "Acceleration: ${item.acceleration}, " +
+                        "Rotation: ${item.rotation}, " +
+                        "Altitude: ${item.altitude}",
+                        modifier = Modifier.weight(1f)
+                    )
+                    Button(onClick = { repo.deleteHistoryItem(item.id) }) {
+                        Text("Delete Fall")
+                    }
+                }
+            }
+        }
+    }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = { repo.createHistoryItem("123", 24f, 5f, 1f) }) {
+            Text("Add Fall")
+        }
+
+        Button(onClick = { repo.clearHistory() }) {
+            Text("Clear History")
         }
     }
 }
