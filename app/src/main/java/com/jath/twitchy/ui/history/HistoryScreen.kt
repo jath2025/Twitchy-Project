@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 // The Android Developers documentation was used for the
-// rememberCoroutineScope launching a courtine from a button
+// rememberCoroutineScope launching a coroutine from a button
 // Source: https://developer.android.com/develop/ui/compose/side-effects
 
 @Composable
