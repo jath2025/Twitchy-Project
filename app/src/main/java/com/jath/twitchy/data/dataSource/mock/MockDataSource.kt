@@ -1,13 +1,14 @@
-package com.jath.twitchy.data.mock
+package com.jath.twitchy.data.dataSource.mock
 
-import com.jath.twitchy.data.SensorData
+import com.jath.twitchy.data.dataSource.SensorData
+import com.jath.twitchy.data.dataSource.SensorDataSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlin.time.Duration.Companion.milliseconds
 
-class MockDataSource {
-    fun getMockData() : Flow<SensorData> = flow {
+class MockDataSource : SensorDataSource {
+    override fun getSensorData() : Flow<SensorData> = flow {
         while (true) {
             val sensorData = SensorData(
                 timestamp = System.currentTimeMillis(),

@@ -1,12 +1,12 @@
 package com.jath.twitchy.data
 
-import com.jath.twitchy.data.mock.MockDataSource
+import com.jath.twitchy.data.dataSource.mock.MockDataSource
 import kotlinx.coroutines.flow.first
 
 private val dataSource = MockDataSource()
 
 suspend fun addFall(repo: HistoryRepository) {
-    val data = dataSource.getMockData().first()
+    val data = dataSource.getSensorData().first()
     repo.createHistoryItem(
         data.timestamp.toString(),
         data.totalAcceleration(),

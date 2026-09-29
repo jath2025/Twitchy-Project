@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.jath.twitchy.data.mock.MockDataSource
+import com.jath.twitchy.data.dataSource.mock.MockDataSource
 
 private const val EARTH_GRAVITY = 9.81f
 private const val BELT_HEIGHT = 0.8f
@@ -23,7 +23,7 @@ private const val BELT_HEIGHT = 0.8f
 @Composable
 fun DashboardScreen() {
     val dataSource = remember { MockDataSource() }
-    val sensorData by dataSource.getMockData().collectAsStateWithLifecycle(initialValue = null)
+    val sensorData by dataSource.getSensorData().collectAsStateWithLifecycle(initialValue = null)
 
     val accelData = sensorData?.totalAcceleration() ?: EARTH_GRAVITY
     val gyroData = sensorData?.totalRotation() ?: 0f

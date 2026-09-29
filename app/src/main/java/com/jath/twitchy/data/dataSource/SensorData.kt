@@ -1,4 +1,4 @@
-package com.jath.twitchy.data
+package com.jath.twitchy.data.dataSource
 
 import kotlin.math.sqrt
 
