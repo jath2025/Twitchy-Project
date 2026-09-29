@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,19 +21,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.jath.twitchy.data.datasource.mock.MockDataSource
 
-private const val EARTH_GRAVITY = 9.81f
-private const val BELT_HEIGHT = 0.8f
+internal const val EARTH_GRAVITY = 9.81f
+internal const val BELT_HEIGHT = 0.8f
 
 @Composable
-fun DashboardScreen() {
-    val dataSource = remember { MockDataSource() }
-    val sensorData by dataSource.getSensorData().collectAsStateWithLifecycle(initialValue = null)
-
-    val accelData = sensorData?.totalAcceleration() ?: EARTH_GRAVITY
-    val gyroData = sensorData?.totalRotation() ?: 0f
-    val baroData = sensorData?.altitude ?: BELT_HEIGHT
+fun DashboardScreen(
+    viewModel: DashboardViewModel
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     Column (
         modifier = Modifier
@@ -56,12 +51,12 @@ fun DashboardScreen() {
                     .weight(1f)
                     .fillMaxHeight()
             ) {
-                Text("Accel: %.2f m/s^2".format(accelData),
+                Text("Accel: %.2f m/s^2".format(state.acceleration),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
                 )
                 MotionGraph(
-                    newValue = accelData,
+                    newValue = state.acceleration,
                     graphColor = Color.Red,
                     modifier = Modifier
                         .height(75.dp)
@@ -78,12 +73,12 @@ fun DashboardScreen() {
                     .weight(1f)
                     .fillMaxHeight()
             ) {
-                Text("Gyro: %.2f rad/s".format(gyroData),
+                Text("Gyro: %.2f rad/s".format(state.rotation),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
                 )
                 MotionGraph(
-                    newValue = gyroData,
+                    newValue = state.rotation,
                     graphColor = Color.Blue,
                     modifier = Modifier
                         .height(75.dp)
@@ -100,12 +95,12 @@ fun DashboardScreen() {
                     .weight(1f)
                     .fillMaxHeight()
             ) {
-                Text("Baro: %.2f m".format(baroData),
+                Text("Baro: %.2f m".format(state.altitude),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
                 )
                 MotionGraph(
-                    newValue = baroData,
+                    newValue = state.altitude,
                     graphColor = Color.Yellow,
                     modifier = Modifier
                         .height(75.dp)

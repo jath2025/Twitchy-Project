@@ -13,8 +13,11 @@ import com.jath.twitchy.ui.history.HistoryScreen
 import com.jath.twitchy.ui.history.HistoryViewModel
 import androidx.lifecycle.viewmodel.initializer
 import com.jath.twitchy.data.datasource.mock.MockDataSource
+import com.jath.twitchy.ui.dashboard.DashboardViewModel
 import com.jath.twitchy.ui.profile.ProfileScreen
 
+// Helpful documentation for using viewmodels from android developers:
+// Source: https://developer.android.com/topic/libraries/architecture/viewmodel/viewmodel-factories
 @Composable
 fun AppNavGraph(
     navController: NavHostController,
@@ -26,7 +29,14 @@ fun AppNavGraph(
         modifier = modifier
         ) {
         composable(Routes.DASHBOARD.path) {
-            DashboardScreen()
+            val dashboardViewModel: DashboardViewModel = viewModel(
+                factory = viewModelFactory {
+                    initializer {
+                        DashboardViewModel(MockDataSource())
+                    }
+                }
+            )
+            DashboardScreen(dashboardViewModel)
         }
         composable(Routes.HISTORY.path) {
             val historyViewModel: HistoryViewModel = viewModel(
