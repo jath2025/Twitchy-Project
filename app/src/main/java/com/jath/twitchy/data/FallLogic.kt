@@ -1,19 +1,7 @@
 package com.jath.twitchy.data
 
-import com.jath.twitchy.data.datasource.mock.MockDataSource
-import kotlinx.coroutines.flow.first
 
-private val dataSource = MockDataSource()
-
-suspend fun addFall(repo: HistoryRepository) {
-    val data = dataSource.getSensorData().first()
-    repo.createHistoryItem(
-        data.timestamp.toString(),
-        data.totalAcceleration(),
-        data.totalRotation(),
-        data.altitude
-    )
-}
+//todo logic for automatically adding fall to history
 
 fun fallSeverity(acceleration: Float): String {
     if (acceleration >= 30f) {

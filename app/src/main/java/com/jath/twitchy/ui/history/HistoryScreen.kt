@@ -11,27 +11,19 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.material3.Text
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.jath.twitchy.data.HistoryRepository
-import com.jath.twitchy.data.addFall
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jath.twitchy.data.fallSeverity
-import kotlinx.coroutines.launch
-
-// The Android Developers documentation was used for the
-// rememberCoroutineScope launching a coroutine from a button
-// Source: https://developer.android.com/develop/ui/compose/side-effects
 
 @Composable
 fun HistoryScreen(
-    repo: HistoryRepository
+    viewModel: HistoryViewModel = viewModel()
 ) {
-    val items = repo.getHistoryItems()
-    val scope = rememberCoroutineScope()
+    val items = viewModel.items
 
     Column(
         modifier = Modifier
@@ -70,7 +62,7 @@ fun HistoryScreen(
                             "Altitude: ${item.altitude}",
                             modifier = Modifier.weight(1f)
                         )
-                        Button(onClick = { repo.deleteHistoryItem(item.id) }) {
+                        Button(onClick = { viewModel.deleteFall(item.id) }) {
                             Text("Delete Fall")
                         }
                     }
@@ -80,14 +72,12 @@ fun HistoryScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-            scope.launch {
-                addFall(repo)
-            }
+            viewModel.addFall()
         }) {
             Text("Add Fall")
         }
 
-        Button(onClick = { repo.clearHistory() }) {
+        Button(onClick = { viewModel.clearHistory() }) {
             Text("Clear History")
         }
     }
