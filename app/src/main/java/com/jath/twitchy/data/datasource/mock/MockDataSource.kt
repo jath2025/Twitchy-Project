@@ -1,7 +1,7 @@
-package com.jath.twitchy.data.dataSource.mock
+package com.jath.twitchy.data.datasource.mock
 
-import com.jath.twitchy.data.dataSource.SensorData
-import com.jath.twitchy.data.dataSource.SensorDataSource
+import com.jath.twitchy.data.datasource.SensorData
+import com.jath.twitchy.data.datasource.SensorDataSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

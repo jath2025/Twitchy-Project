@@ -1,6 +1,6 @@
 package com.jath.twitchy.data
 
-import com.jath.twitchy.data.dataSource.mock.MockDataSource
+import com.jath.twitchy.data.datasource.mock.MockDataSource
 import kotlinx.coroutines.flow.first
 
 private val dataSource = MockDataSource()

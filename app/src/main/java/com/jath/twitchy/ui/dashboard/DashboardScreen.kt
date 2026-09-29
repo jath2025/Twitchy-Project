@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.jath.twitchy.data.dataSource.mock.MockDataSource
+import com.jath.twitchy.data.datasource.mock.MockDataSource
 
 private const val EARTH_GRAVITY = 9.81f
 private const val BELT_HEIGHT = 0.8f
