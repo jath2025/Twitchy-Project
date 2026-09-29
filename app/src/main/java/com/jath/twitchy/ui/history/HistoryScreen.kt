@@ -36,7 +36,7 @@ fun HistoryScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         Text(
             text = "Fall History",
@@ -46,37 +46,37 @@ fun HistoryScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-    LazyColumn(
-        modifier = Modifier.weight(1f)
-    ) {
-        if (items.isEmpty()) {
-            item {
-                Text("No history")
-            }
-        } else {
-            items(items.size) { index ->
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    val item = items[index]
+        LazyColumn (
+            modifier = Modifier.weight(1f)
+        ) {
+            if (items.isEmpty()) {
+                item {
+                    Text("No history")
+                }
+            } else {
+                items(items.size) { index ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        val item = items[index]
 
-                    Text(
-                        "Fall id: ${item.id}, " +
-                        "Severity: ${fallSeverity(item.acceleration)}, " +
-                        "Timestamp: ${item.timestamp}, " +
-                        "Acceleration: ${item.acceleration}, " +
-                        "Rotation: ${item.rotation}, " +
-                        "Altitude: ${item.altitude}",
-                        modifier = Modifier.weight(1f)
-                    )
-                    Button(onClick = { repo.deleteHistoryItem(item.id) }) {
-                        Text("Delete Fall")
+                        Text(
+                            "Fall id: ${item.id}, " +
+                            "Severity: ${fallSeverity(item.acceleration)}, " +
+                            "Timestamp: ${item.timestamp}, " +
+                            "Acceleration: ${item.acceleration}, " +
+                            "Rotation: ${item.rotation}, " +
+                            "Altitude: ${item.altitude}",
+                            modifier = Modifier.weight(1f)
+                        )
+                        Button(onClick = { repo.deleteHistoryItem(item.id) }) {
+                            Text("Delete Fall")
+                        }
                     }
                 }
             }
         }
-    }
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {

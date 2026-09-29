@@ -36,7 +36,7 @@ fun MotionGraph(
 
     Canvas(
         modifier = modifier
-            .clip(RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(4.dp))
             .background(Color.LightGray))
     {
         val path = Path()
