@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.material3.Text
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,8 +18,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jath.twitchy.data.HistoryRepository
-import com.jath.twitchy.data.mock.MockDataSource
-import kotlinx.coroutines.flow.first
+import com.jath.twitchy.data.addFall
+import com.jath.twitchy.data.fallSeverity
 import kotlinx.coroutines.launch
 
 // The Android Developers documentation was used for the
@@ -32,7 +31,6 @@ fun HistoryScreen(
     repo: HistoryRepository
 ) {
     val items = repo.getHistoryItems()
-    val dataSource = remember { MockDataSource() }
     val scope = rememberCoroutineScope()
 
     Column(
@@ -41,7 +39,7 @@ fun HistoryScreen(
             .padding(16.dp)
     ) {
         Text(
-            text = "History",
+            text = "Fall History",
             fontSize = 24.sp,
             fontFamily = FontFamily.SansSerif,
             color = Color.Black
@@ -65,6 +63,7 @@ fun HistoryScreen(
 
                     Text(
                         "Fall id: ${item.id}, " +
+                        "Severity: ${fallSeverity(item.acceleration)}, " +
                         "Timestamp: ${item.timestamp}, " +
                         "Acceleration: ${item.acceleration}, " +
                         "Rotation: ${item.rotation}, " +
@@ -78,18 +77,11 @@ fun HistoryScreen(
             }
         }
     }
-
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
             scope.launch {
-                val data = dataSource.getMockData().first()
-                repo.createHistoryItem(
-                    data.timestamp.toString(),
-                    data.totalAcceleration(),
-                    data.totalRotation(),
-                    data.altitude
-                )
+                addFall(repo)
             }
         }) {
             Text("Add Fall")
