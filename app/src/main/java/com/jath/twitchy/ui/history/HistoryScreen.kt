@@ -22,7 +22,7 @@ import com.jath.twitchy.data.formatTime
 
 @Composable
 fun HistoryScreen(
-    viewModel: HistoryViewModel = viewModel()
+    viewModel: HistoryViewModel
 ) {
     val items = viewModel.sortedItems
 

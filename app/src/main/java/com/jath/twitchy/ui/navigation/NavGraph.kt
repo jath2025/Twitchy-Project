@@ -11,6 +11,7 @@ import com.jath.twitchy.ui.history.HistoryScreen
 import com.jath.twitchy.ui.history.HistoryViewModel
 import com.jath.twitchy.ui.dashboard.DashboardViewModel
 import com.jath.twitchy.ui.profile.ProfileScreen
+import com.jath.twitchy.ui.profile.ProfileViewModel
 
 // Helpful documentation for using viewmodels from android developers:
 // Source: https://developer.android.com/topic/libraries/architecture/viewmodel/viewmodel-factories
@@ -30,7 +31,7 @@ fun AppNavGraph(
             HistoryScreen(viewModel(factory = HistoryViewModel.Factory))
         }
         composable(Routes.PROFILE.path) {
-            ProfileScreen()
+            ProfileScreen(viewModel(factory = ProfileViewModel.Factory))
         }
     }
 }
