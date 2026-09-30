@@ -1,15 +1,15 @@
 package com.jath.twitchy.ui.history
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.jath.twitchy.TwitchyApplication
-import com.jath.twitchy.data.historydata.HistoryRepository
 import com.jath.twitchy.data.datasource.SensorDataSource
+import com.jath.twitchy.data.historydata.HistoryRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 
 class HistoryViewModel(
     private val repo: HistoryRepository,
