@@ -3,16 +3,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.runtime.Composable
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun ProfileScreen(
     viewModel: ProfileViewModel
 ) {
+    val profile by viewModel.profile.collectAsStateWithLifecycle()
+    val isRecording by viewModel.isRecording.collectAsStateWithLifecycle()
 
 
     Column(
@@ -24,12 +27,24 @@ fun ProfileScreen(
 
 
 
-        Button(onClick = {
-            // todo
-        }) {
-            Text("Record Baseline")
+        Button(
+            onClick = {
+                viewModel.recordBaseline()
+            },
+            enabled = !isRecording
+        ) {
+            Text(if (isRecording) "Recording..." else "Record Baseline")
         }
 
-        Text("No baseline recorded")
+        val baseline = profile.baseline
+        if (baseline != null) {
+            Text("Accel: %.2f, Rotation: %.2f, Height: %.2f ".format(
+                baseline.acceleration,
+                baseline.rotation,
+                baseline.altitude)
+            )
+        } else {
+            Text("No baseline recorded")
+        }
     }
 }
