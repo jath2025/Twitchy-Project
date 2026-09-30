@@ -15,7 +15,8 @@ class HistoryViewModel(
     private val repo: HistoryRepository,
     private val dataSource: SensorDataSource
 ) : ViewModel() {
-
+    val items get() = repo.getHistoryItems()
+    val sortedItems get() = items.sortedByDescending { it.acceleration }
     companion object {
         val Factory = viewModelFactory {
             initializer {
@@ -27,7 +28,6 @@ class HistoryViewModel(
             }
         }
     }
-    val items get() = repo.getHistoryItems()
     fun addFall() = viewModelScope.launch {
         val data = dataSource.getSensorData().first()
         repo.createHistoryItem(

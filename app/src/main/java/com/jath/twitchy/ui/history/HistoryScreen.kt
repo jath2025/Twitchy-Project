@@ -23,7 +23,7 @@ import com.jath.twitchy.data.fallSeverity
 fun HistoryScreen(
     viewModel: HistoryViewModel = viewModel()
 ) {
-    val items = viewModel.items
+    val items = viewModel.sortedItems
 
     Column(
         modifier = Modifier
@@ -57,9 +57,9 @@ fun HistoryScreen(
                             "Fall id: ${item.id}, " +
                             "Severity: ${fallSeverity(item.acceleration)}, " +
                             "Timestamp: ${item.timestamp}, " +
-                            "Acceleration: ${item.acceleration}, " +
-                            "Rotation: ${item.rotation}, " +
-                            "Altitude: ${item.altitude}",
+                            "Acceleration: %.2f, ".format(item.acceleration) +
+                            "Rotation: %.2f, ".format(item.rotation) +
+                            "Height: %.2f".format(item.altitude),
                             modifier = Modifier.weight(1f)
                         )
                         Button(onClick = { viewModel.deleteFall(item.id) }) {
