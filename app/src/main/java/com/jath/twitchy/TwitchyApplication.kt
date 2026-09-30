@@ -1,7 +1,7 @@
 package com.jath.twitchy
 
 import android.app.Application
-import com.jath.twitchy.data.HistoryRepository
+import com.jath.twitchy.data.historydata.HistoryRepository
 import com.jath.twitchy.data.datasource.SensorDataSource
 import com.jath.twitchy.data.datasource.mock.MockDataSource
 

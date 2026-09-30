@@ -1,4 +1,4 @@
-package com.jath.twitchy.data
+package com.jath.twitchy.data.historydata
 
 import androidx.compose.runtime.mutableStateListOf
 

@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.jath.twitchy.TwitchyApplication
-import com.jath.twitchy.data.HistoryRepository
+import com.jath.twitchy.data.historydata.HistoryRepository
 import com.jath.twitchy.data.datasource.SensorDataSource
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch

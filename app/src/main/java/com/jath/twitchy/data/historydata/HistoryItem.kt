@@ -1,4 +1,4 @@
-package com.jath.twitchy.data
+package com.jath.twitchy.data.historydata
 
 data class HistoryItem(
     val id: Int,
