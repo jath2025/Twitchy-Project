@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jath.twitchy.data.fallSeverity
+import com.jath.twitchy.data.formatTime
 
 @Composable
 fun HistoryScreen(
@@ -52,11 +53,11 @@ fun HistoryScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         val item = items[index]
-
+                        val currTime = item.timestamp
                         Text(
                             "Fall id: ${item.id}, " +
                             "Severity: ${fallSeverity(item.acceleration)}, " +
-                            "Timestamp: ${item.timestamp}, " +
+                            "Time: ${formatTime(currTime.toLong())}, " +
                             "Acceleration: %.2f, ".format(item.acceleration) +
                             "Rotation: %.2f, ".format(item.rotation) +
                             "Height: %.2f".format(item.altitude),
