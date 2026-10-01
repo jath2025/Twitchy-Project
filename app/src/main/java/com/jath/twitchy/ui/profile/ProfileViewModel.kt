@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 
-// Backing-property pattern _profile/profile were suggested by the Gen AI, (Claude, Anthropic).
+// Backing-property pattern _isRecording/isRecording were suggested by the Gen AI, (Claude, Anthropic).
 
 class ProfileViewModel(
     private val repo: ProfileRepository,

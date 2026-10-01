@@ -1,13 +1,50 @@
 package com.jath.twitchy
 
 import android.app.Application
+import com.jath.twitchy.data.FallDetection
 import com.jath.twitchy.data.historydata.HistoryRepository
 import com.jath.twitchy.data.datasource.SensorDataSource
 import com.jath.twitchy.data.datasource.mock.MockDataSource
 import com.jath.twitchy.data.profiledata.ProfileRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+private const val FALL_COOLDOWN_MS = 5000L
 
 class TwitchyApplication : Application() {
     val sensorDataSource: SensorDataSource by lazy { MockDataSource() }
     val historyRepository: HistoryRepository by lazy { HistoryRepository() }
     val profileRepository: ProfileRepository by lazy { ProfileRepository() }
+
+    private val fallDetection = FallDetection()
+
+    // Gen AI (Claude) suggested that I give the app its own scope,
+    // so that falls are being tracked in the background.
+    private val appScope = CoroutineScope(Dispatchers.Default)
+
+    override fun onCreate() {
+        super.onCreate()
+        fallListener()
+    }
+
+    // I used Gen AI (Claude) for help with this function, it suggested that I use collect
+    // and a var for the last time a fall has happened, instead of using delay().
+    private fun fallListener() {
+        appScope.launch {
+            var lastFall = 0L
+            sensorDataSource.getSensorData().collect { data ->
+                val coolDown = data.timestamp - lastFall > FALL_COOLDOWN_MS
+                if (coolDown && fallDetection.isFall(data)) {
+                    lastFall = data.timestamp
+                    historyRepository.createHistoryItem(
+                        data.timestamp.toString(),
+                        data.totalAcceleration(),
+                        data.totalRotation(),
+                        data.altitude
+                    )
+                }
+            }
+        }
+    }
 }
