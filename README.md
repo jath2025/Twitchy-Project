@@ -44,6 +44,19 @@
 - *Pairing must also use some sort of secure handshake protocol (e.g. BLE passkey pairing or an app-specific token)*
 - *The wearable device should be comfortable and lightweight enough to be worn for at least half a day*
 
+
+### User Manual
+
+- **Installing**
+  - Android Studio
+  - JDK 17 or higher
+  - Android emulator running Android 8.0 (API 26) or higher, or a physical a physical device with the same specs.
+
+- **Running**
+  - Select the preferred device in Android Studio on the left side under the "Device manager" tab.
+  - Click the green "play" button in the top bar or press "Shift + F10"
+  - The app then builds and launches itself on the device.
+
 ---
 
 ## Your Backlog
