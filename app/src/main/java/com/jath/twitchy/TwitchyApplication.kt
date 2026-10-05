@@ -16,7 +16,7 @@ private const val FALL_COOLDOWN_MS = 5000L
 class TwitchyApplication : Application() {
     val sensorDataSource: SensorDataSource by lazy { MockDataSource() }
     val historyRepository: HistoryRepository by lazy { HistoryRepository() }
-    val profileRepository: ProfileRepository by lazy { ProfileRepository() }
+    val profileRepository: ProfileRepository by lazy { ProfileRepository(encryptedStorage) }
 
     private val fallDetection = FallDetection()
     private val encryptedStorage by lazy { EncryptedStorage(this) }

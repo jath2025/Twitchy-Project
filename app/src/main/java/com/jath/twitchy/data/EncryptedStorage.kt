@@ -57,6 +57,10 @@ class EncryptedStorage(private val context: Context) {
         if (!file.exists()) {
             return null
         }
-        return decrypt(file.readBytes())
+        return try {
+            decrypt(file.readBytes())
+        } catch (e: Exception) {
+            null
+        }
     }
 }
