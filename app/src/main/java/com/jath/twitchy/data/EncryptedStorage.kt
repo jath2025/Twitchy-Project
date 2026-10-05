@@ -12,7 +12,7 @@ import javax.crypto.spec.GCMParameterSpec
 
 private const val KEY_ALIAS = "twitchy_key"
 
-class EncryptedStorage() {
+class EncryptedStorage(private val context: Context) {
 
     // Structure with some changes from: https://medium.com/@khorassani64/using-android-keystore-in-kotlin-and-jetpack-compose-b85b3a922cf3
     fun generateKey(alias: String): SecretKey {
@@ -47,5 +47,16 @@ class EncryptedStorage() {
         val cipher = Cipher.getInstance("AES/GCM/NoPadding")
         cipher.init(Cipher.DECRYPT_MODE, generateKey(KEY_ALIAS), GCMParameterSpec(128, iv))
         return String(cipher.doFinal(encryptedText))
+    }
+
+    fun save(fileName: String, text: String) {
+        File(context.filesDir, fileName).writeBytes(encrypt(text))
+    }
+    fun load(fileName: String): String? {
+        val file = File(context.filesDir, fileName)
+        if (!file.exists()) {
+            return null
+        }
+        return decrypt(file.readBytes())
     }
 }

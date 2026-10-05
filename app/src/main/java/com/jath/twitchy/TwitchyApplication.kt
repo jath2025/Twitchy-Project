@@ -6,6 +6,7 @@ import com.jath.twitchy.data.historydata.HistoryRepository
 import com.jath.twitchy.data.datasource.SensorDataSource
 import com.jath.twitchy.data.datasource.mock.MockDataSource
 import com.jath.twitchy.data.profiledata.ProfileRepository
+import com.jath.twitchy.data.EncryptedStorage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,6 +19,7 @@ class TwitchyApplication : Application() {
     val profileRepository: ProfileRepository by lazy { ProfileRepository() }
 
     private val fallDetection = FallDetection()
+    private val encryptedStorage by lazy { EncryptedStorage(this) }
 
     // Gen AI (Claude) suggested that I give the app its own scope,
     // so that falls are being tracked in the background.
