@@ -44,6 +44,9 @@ class ProfileViewModel(
             }
         }
     }
+    fun updateName(name: String) {
+        repo.updateName(name)
+    }
 
     companion object {
         val Factory = viewModelFactory {
