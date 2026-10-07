@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -30,6 +33,14 @@ fun DashboardScreen(
     viewModel: DashboardViewModel
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val statusText = when (state.status) {
+        DashboardStatus.MONITORING -> "Monitoring"
+        DashboardStatus.FALL_DETECTED -> "Fall Detected"
+    }
+    val statusColor = when (state.status) {
+        DashboardStatus.MONITORING -> Color.Green
+        DashboardStatus.FALL_DETECTED -> Color.Red
+    }
 
     Column (
         modifier = Modifier
@@ -118,7 +129,24 @@ fun DashboardScreen(
                 .padding(vertical = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Status:")
+            Text("Status:",
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                    colors = CardDefaults.cardColors(containerColor = statusColor)
+            ) {
+                Text(statusText,
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(16.dp)
+                )
+            }
         }
     }
 }
