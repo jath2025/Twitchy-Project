@@ -1,5 +1,6 @@
 package com.jath.twitchy.ui.history
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,6 +29,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import com.jath.twitchy.data.historydata.HistoryItem
 
 // lazyColumn and the items structure are inspired by Android Developers documentation:
 // https://developer.android.com/develop/ui/compose/lists
@@ -36,7 +39,7 @@ fun HistoryScreen(
     viewModel: HistoryViewModel
 ) {
     val summary = viewModel.summary
-    var clearHistoryDialog by rememberSaveable() { mutableStateOf(false) }
+    var clearHistoryDialog by rememberSaveable { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -49,16 +52,20 @@ fun HistoryScreen(
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
             ) {
-                Text("Fall summary (${summary.count} falls)",
+                Text(
+                    "Fall summary (${summary.count} falls)",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(start = 8.dp, bottom = 8.dp, top = 8.dp))
-                Text("Avg Accel: %.1f   Max Accel: %.1f"
-                    .format(summary.avgAcceleration, summary.maxAcceleration),
+                    modifier = Modifier.padding(start = 8.dp, bottom = 8.dp, top = 8.dp)
+                )
+                Text(
+                    "Avg Accel: %.1f   Max Accel: %.1f"
+                        .format(summary.avgAcceleration, summary.maxAcceleration),
                     modifier = Modifier.padding(start = 8.dp)
                 )
-                Text("Avg Rota: %.1f    Max Rota: %.1f"
-                    .format(summary.avgRotation, summary.maxRotation),
+                Text(
+                    "Avg Rota: %.1f    Max Rota: %.1f"
+                        .format(summary.avgRotation, summary.maxRotation),
                     modifier = Modifier.padding(start = 8.dp, bottom = 8.dp)
                 )
             }
@@ -69,65 +76,47 @@ fun HistoryScreen(
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
         )
-
-        LazyColumn (
-            modifier = Modifier
-                .weight(1f)
-                .padding(vertical = 8.dp)
-        ) {
-            if (viewModel.items.isEmpty()) {
-                item { Text("No history", fontSize = 18.sp) }
-            } else {
-                for (severity in listOf("High", "Medium", "Low")) {
-                    val falls = viewModel.fallsBySeverity(severity)
-                    if (falls.isNotEmpty()) {
-                        item {
-                            Text(
-                                "$severity (${falls.size})",
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                        items(falls, key = { it.id }) { fall ->
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
-                            ) {
-                                val currTime = fall.timestamp
+        Box(modifier = Modifier.weight(1f)) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(vertical = 8.dp)
+            ) {
+                if (viewModel.items.isEmpty()) {
+                    item { Text("No history", fontSize = 18.sp) }
+                } else {
+                    for (severity in listOf("High", "Medium", "Low")) {
+                        val falls = viewModel.fallsBySeverity(severity)
+                        if (falls.isNotEmpty()) {
+                            item {
                                 Text(
-                                    "Fall id: ${fall.id}, " +
-                                    "Time: ${formatTime(currTime.toLong())}, " +
-                                    "Acceleration: %.1f, ".format(fall.acceleration) +
-                                    "Rotation: %.1f, ".format(fall.rotation) +
-                                    "Height: %.1f".format(fall.altitude),
-                                    modifier = Modifier.weight(1f)
+                                    "$severity (${falls.size})",
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold
                                 )
-                                IconButton(onClick = { viewModel.deleteFall(fall.id) }) {
-                                    Icon(Icons.Default.Delete, contentDescription = "Delete fall")
-                                }
+                            }
+                            items(falls, key = { it.id }) { fall ->
+                                FallCard(fall, onDelete = { viewModel.deleteFall(fall.id) })
                             }
                         }
                     }
                 }
             }
-        }
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = {
-            viewModel.addFall()
-        }) {
-            Text("Add Fall")
-        }
-
-        Button(onClick = { clearHistoryDialog = true }) {
-            Text("Clear History")
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+            ) {
+                Button(onClick = { viewModel.addFall() }) { Text("Add Fall") }
+                Button(onClick = { clearHistoryDialog = true }) { Text("Clear History") }
+            }
         }
 
         // Structure for AlertDialog inspired by Android Developers documentation:
         // https://developer.android.com/develop/ui/compose/components/dialog
-        if(clearHistoryDialog) {
+        if (clearHistoryDialog) {
             AlertDialog(
                 title = { Text("Clear history?") },
                 text = { Text("All saved logs will be deleted") },
@@ -145,9 +134,37 @@ fun HistoryScreen(
                         Text("Cancel")
                     }
                 }
-
             )
         }
+    }
+}
 
+@Composable
+fun FallCard(fall: HistoryItem, onDelete: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column() {
+                Text(formatTime(fall.timestamp.toLong()),
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+                Text("Acceleration %.1f m/s^2  Rotation %.1f rad/s".format(fall.acceleration, fall.rotation),
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+                Text("Height %.1f m".format(fall.altitude),
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
+            IconButton( onClick = onDelete ) {
+                Icon(Icons.Default.Delete, contentDescription = "Delete fall")
+            }
+        }
     }
 }

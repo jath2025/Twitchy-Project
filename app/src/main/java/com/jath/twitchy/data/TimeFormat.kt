@@ -4,7 +4,7 @@ import java.time.Instant
 import java.time.format.DateTimeFormatter
 
 fun formatTime(millis: Long): String {
-    val timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+    val timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
     return (Instant
         .ofEpochMilli(millis)
