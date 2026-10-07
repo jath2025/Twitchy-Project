@@ -12,14 +12,22 @@ import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jath.twitchy.data.formatTime
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 // lazyColumn and the items structure are inspired by Android Developers documentation:
 // https://developer.android.com/develop/ui/compose/lists
@@ -28,14 +36,13 @@ fun HistoryScreen(
     viewModel: HistoryViewModel
 ) {
     val summary = viewModel.summary
+    var clearHistoryDialog by rememberSaveable() { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-
-
         if (summary.count != 0) {
             Card(
                 modifier = Modifier
@@ -84,7 +91,8 @@ fun HistoryScreen(
                         items(falls, key = { it.id }) { fall ->
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
                             ) {
                                 val currTime = fall.timestamp
                                 Text(
@@ -95,8 +103,8 @@ fun HistoryScreen(
                                     "Height: %.1f".format(fall.altitude),
                                     modifier = Modifier.weight(1f)
                                 )
-                                Button(onClick = { viewModel.deleteFall(fall.id) }) {
-                                    Text("Delete Fall")
+                                IconButton(onClick = { viewModel.deleteFall(fall.id) }) {
+                                    Icon(Icons.Default.Delete, contentDescription = "Delete fall")
                                 }
                             }
                         }
@@ -113,8 +121,33 @@ fun HistoryScreen(
             Text("Add Fall")
         }
 
-        Button(onClick = { viewModel.clearHistory() }) {
+        Button(onClick = { clearHistoryDialog = true }) {
             Text("Clear History")
         }
+
+        // Structure for AlertDialog inspired by Android Developers documentation:
+        // https://developer.android.com/develop/ui/compose/components/dialog
+        if(clearHistoryDialog) {
+            AlertDialog(
+                title = { Text("Clear history?") },
+                text = { Text("All saved logs will be deleted") },
+                onDismissRequest = { clearHistoryDialog = false },
+                confirmButton = {
+                    TextButton(onClick = {
+                        viewModel.clearHistory()
+                        clearHistoryDialog = false
+                    }) {
+                        Text("Confirm")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { clearHistoryDialog = false }) {
+                        Text("Cancel")
+                    }
+                }
+
+            )
+        }
+
     }
 }
