@@ -1,16 +1,21 @@
 package com.jath.twitchy.ui.profile
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
@@ -24,43 +29,72 @@ fun ProfileScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .padding(8.dp)
     ) {
-        Text("Profile")
-
-        OutlinedTextField(
-            value = profile.name,
-            onValueChange = { viewModel.updateName(it) },
-            label = { Text("Name") }
+        Text(
+            text = "Profile",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
         )
-        Button(
-            onClick = {
-                viewModel.updateName(profile.name)
-            }
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
-            Text("Save Name")
+            Column(
+                modifier = Modifier
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                OutlinedTextField(
+                    value = profile.name,
+                    onValueChange = { viewModel.updateName(it) },
+                    label = { Text("Name", fontSize = 24.sp) }
+                )
+                Button(
+                    onClick = {
+                        viewModel.updateName(profile.name)
+                    }
+                ) {
+                    Text("Save Name")
+                }
+            }
         }
+
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text("Baseline")
-        Button(
-            onClick = {
-                viewModel.recordBaseline()
-            },
-            enabled = !isRecording
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
-            Text(if (isRecording) "Recording..." else "Record Baseline")
-        }
+            Column(
+                modifier = Modifier
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                Text("Baseline", fontSize = 24.sp)
+                Button(
+                    onClick = {
+                        viewModel.recordBaseline()
+                    },
+                    enabled = !isRecording
+                ) {
+                    Text(if (isRecording) "Recording..." else "Record Baseline")
+                }
 
-        val baseline = profile.baseline
-        if (baseline != null) {
-            Text("Accel: %.2f, Rotation: %.2f, Height: %.2f ".format(
-                baseline.acceleration,
-                baseline.rotation,
-                baseline.altitude)
-            )
-        } else {
-            Text("No baseline recorded")
+                val baseline = profile.baseline
+                if (baseline != null) {
+                    Text("Current Baseline:", fontSize = 18.sp)
+                    Text(
+                        "Acceleration: %.2f \n".format(baseline.acceleration) +
+                        "Rotation: %.2f \n".format(baseline.rotation) +
+                        "Height: %.2f ".format(baseline.altitude),
+                        fontSize = 16.sp
+                        )
+                } else {
+                    Text("No baseline recorded")
+                }
+            }
         }
     }
 }
