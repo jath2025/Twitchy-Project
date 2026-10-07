@@ -13,11 +13,34 @@ import com.jath.twitchy.data.historydata.HistoryRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
+data class FallSummary(
+    val count: Int = 0,
+    val avgAcceleration: Float = 0f,
+    val maxAcceleration: Float = 0f,
+    val avgRotation: Float = 0f,
+    val maxRotation: Float = 0f
+)
+
 class HistoryViewModel(
     private val repo: HistoryRepository,
     private val dataSource: SensorDataSource
 ) : ViewModel() {
     val items get() = repo.getHistoryItems()
+
+    val summary: FallSummary
+        get() {
+            val falls = items
+            if (!falls.isEmpty()) {
+                return FallSummary(
+                    count = falls.size,
+                    maxAcceleration = falls.maxOf { it.acceleration },
+                    avgAcceleration = falls.map { it.acceleration }.average().toFloat(),
+                    maxRotation = falls.maxOf { it.rotation },
+                    avgRotation = falls.map { it.rotation }.average().toFloat()
+                )
+            }
+            return FallSummary()
+        }
 
     fun fallsBySeverity(severity: String): List<HistoryItem> {
         return items

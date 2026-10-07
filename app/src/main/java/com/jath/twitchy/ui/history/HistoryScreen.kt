@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jath.twitchy.data.formatTime
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
 
 // lazyColumn and the items structure are inspired by Android Developers documentation:
 // https://developer.android.com/develop/ui/compose/lists
@@ -26,21 +27,46 @@ import androidx.compose.foundation.lazy.items
 fun HistoryScreen(
     viewModel: HistoryViewModel
 ) {
+    val summary = viewModel.summary
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
+
+
+        if (summary.count != 0) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+            ) {
+                Text("Fall summary (${summary.count} falls)",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(start = 8.dp, bottom = 8.dp, top = 8.dp))
+                Text("Avg Accel: %.1f   Max Accel: %.1f"
+                    .format(summary.avgAcceleration, summary.maxAcceleration),
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+                Text("Avg Rota: %.1f    Max Rota: %.1f"
+                    .format(summary.avgRotation, summary.maxRotation),
+                    modifier = Modifier.padding(start = 8.dp, bottom = 8.dp)
+                )
+            }
+        }
+
         Text(
             text = "Fall History",
             fontSize = 24.sp,
-            fontFamily = FontFamily.SansSerif,
-            color = Color.Black
+            fontWeight = FontWeight.Bold,
         )
-        Spacer(modifier = Modifier.height(16.dp))
 
         LazyColumn (
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .weight(1f)
+                .padding(vertical = 8.dp)
         ) {
             if (viewModel.items.isEmpty()) {
                 item { Text("No history", fontSize = 18.sp) }
