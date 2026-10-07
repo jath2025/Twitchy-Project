@@ -14,18 +14,18 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.jath.twitchy.data.fallSeverity
 import com.jath.twitchy.data.formatTime
+import androidx.compose.foundation.lazy.items
 
+// lazyColumn and the items structure are inspired by Android Developers documentation:
+// https://developer.android.com/develop/ui/compose/lists
 @Composable
 fun HistoryScreen(
     viewModel: HistoryViewModel
 ) {
-    val items = viewModel.sortedItems
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -42,34 +42,43 @@ fun HistoryScreen(
         LazyColumn (
             modifier = Modifier.weight(1f)
         ) {
-            if (items.isEmpty()) {
-                item {
-                    Text("No history")
-                }
+            if (viewModel.items.isEmpty()) {
+                item { Text("No history", fontSize = 18.sp) }
             } else {
-                items(items.size) { index ->
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        val item = items[index]
-                        val currTime = item.timestamp
-                        Text(
-                            "Fall id: ${item.id}, " +
-                            "Severity: ${fallSeverity(item.acceleration)}, " +
-                            "Time: ${formatTime(currTime.toLong())}, " +
-                            "Acceleration: %.2f, ".format(item.acceleration) +
-                            "Rotation: %.2f, ".format(item.rotation) +
-                            "Height: %.2f".format(item.altitude),
-                            modifier = Modifier.weight(1f)
-                        )
-                        Button(onClick = { viewModel.deleteFall(item.id) }) {
-                            Text("Delete Fall")
+                for (severity in listOf("High", "Medium", "Low")) {
+                    val falls = viewModel.fallsBySeverity(severity)
+                    if (falls.isNotEmpty()) {
+                        item {
+                            Text(
+                                "$severity (${falls.size})",
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                        items(falls, key = { it.id }) { fall ->
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                val currTime = fall.timestamp
+                                Text(
+                                    "Fall id: ${fall.id}, " +
+                                    "Time: ${formatTime(currTime.toLong())}, " +
+                                    "Acceleration: %.1f, ".format(fall.acceleration) +
+                                    "Rotation: %.1f, ".format(fall.rotation) +
+                                    "Height: %.1f".format(fall.altitude),
+                                    modifier = Modifier.weight(1f)
+                                )
+                                Button(onClick = { viewModel.deleteFall(fall.id) }) {
+                                    Text("Delete Fall")
+                                }
+                            }
                         }
                     }
                 }
             }
         }
+
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {

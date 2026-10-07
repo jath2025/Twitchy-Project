@@ -7,6 +7,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.jath.twitchy.TwitchyApplication
 import com.jath.twitchy.data.datasource.SensorDataSource
+import com.jath.twitchy.data.fallSeverity
+import com.jath.twitchy.data.historydata.HistoryItem
 import com.jath.twitchy.data.historydata.HistoryRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -16,7 +18,12 @@ class HistoryViewModel(
     private val dataSource: SensorDataSource
 ) : ViewModel() {
     val items get() = repo.getHistoryItems()
-    val sortedItems get() = items.sortedByDescending { it.acceleration }
+
+    fun fallsBySeverity(severity: String): List<HistoryItem> {
+        return items
+            .filter { fallSeverity(it.acceleration) == severity }
+            .sortedByDescending { it.timestamp.toLong() }
+    }
     companion object {
         val Factory = viewModelFactory {
             initializer {
