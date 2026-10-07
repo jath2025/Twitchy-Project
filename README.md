@@ -10,10 +10,10 @@
 
 ### Project Aim and Objectives
 
-*Twitchy is a small wearable device that with the help of a mobile application is designed to detect and track falls/hard impacts on the user. The device is fitted with an accelerometer, gyroscope and a barometric pressure sesor to get accurate readings with as little false positives as possible. The application features a section for viewing historical fall data and a real-time motion graph updating based on the incoming sensor data. To make the system reliable its mandetory to go through with a baseline calibration set up.*
-*Twitchy is designed for people with an intrest in tracking their own falls or impacts, that could vary all the way from eldery, healthcare professinonals or young and fit individuals who can implement the tracking in sports. The main features are:* 
+*Twitchy is a small wearable device that with the help of a mobile application is designed to detect and track falls/hard impacts on the user. The device is fitted with an accelerometer, gyroscope and a barometric pressure sensor to get accurate readings with as few false positives as possible. The application features a section for viewing historical fall data and a real-time motion graph updating based on the incoming sensor data. To make the system reliable, it's mandatory to go through with a baseline calibration set up.*
+*Twitchy is designed for people with an interest in tracking their own falls or impacts, that could vary all the way from elderly, healthcare professionals or young and fit individuals who can implement the tracking in sports. The main features are:* 
 * A live motion graph that moves as you fall or get "close" to falling.
-* Live-updating visual effects of falls in the application, as well as a alert.
+* Live-updating visual effects of falls in the application, as well as a "Status" card in the application.
 * The ability to set a baseline and get accurate readings personal for you.
 * Offers the user a history of historical falls/impacts.
 * Low chance of false positives due to multiple sensors.
@@ -48,14 +48,26 @@
 ### User Manual
 
 - **Installing**
-  - Android Studio
-  - JDK 17 or higher
-  - Android emulator running Android 8.0 (API 26) or higher, or a physical a physical device with the same specs.
+  - Android Studio.
+  - Android SDK 37 (Android Studio may offer you to install this when you install Android Studio).
+  - JDK 17 or higher.
+  - Android emulator running Android 8.0 (API 26) or higher, or a physical device with the same specs.
 
 - **Running**
+  - Clone the project from GitHub (git clone https://github.com/jath/pa1414-tchy-frg-jath25.git).
+  - Open the folder in Android Studio.
+  - Wait for Gradle to sync (this may take a while).
   - Select the preferred device in Android Studio on the left side under the "Device manager" tab.
-  - Click the green "play" button in the top bar or press "Shift + F10"
+  - Click the green "play" button in the top bar or press "Shift + F10".
   - The app then builds and launches itself on the device.
+  
+- **General information about the app**
+  - The app has three different screens, Dashboard, History and Profile.
+    - Dashboard is the screen you are currently on when first starting, it shows the current status, as well as current sensor readings.
+    - History is where you can view the fall history, delete falls, add falls and clear the history. The falls are automatically added and sorted by severity.
+    - Profile is where you can view and edit your profile, such as recording a baseline calibration or updating your name.
+  - The data (fall history and profile data) is securely stored on the device with the help of AES-GCM encryption.
+  - The app is currently fed mock data in preparation for the hardware setup.
 
 ---
 
@@ -87,7 +99,7 @@ You'll need a working board by the end of Sprint 1, as Status Report 3 requires 
 
 From Week 38 onward:
 - Set up your development environment and start development.
-- You're free to organise your code however works best for you — for example, using `src/` and `docs/` folders, or any other structure. There's no required folder layout; 
+- You're free to organize your code however works best for you — for example, using `src/` and `docs/` folders, or any other structure. There's no required folder layout; 
 - At the end of each sprint, your work will be demonstrated to the customer at that sprint's Demo
 - Keep this README as the one place that always explains how to install and run your project.
 
