@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-private const val FALL_COOLDOWN_MS = 5000L
+private const val FALL_COOLDOWN_MS = 10_000L
 
 class TwitchyApplication : Application() {
     val sensorDataSource: SensorDataSource by lazy { MockDataSource() }
@@ -37,7 +37,7 @@ class TwitchyApplication : Application() {
             var lastFall = 0L
             sensorDataSource.getSensorData().collect { data ->
                 val coolDown = data.timestamp - lastFall > FALL_COOLDOWN_MS
-                if (coolDown && fallDetection.isFall(data)) {
+                if (coolDown && fallDetection.isFall(data, profileRepository.profile.value.baseline)) {
                     lastFall = data.timestamp
                     historyRepository.createHistoryItem(
                         data.timestamp.toString(),
