@@ -28,7 +28,7 @@ class MockDataSource : SensorDataSource {
                 gyroscopeX = spike + static(),
                 gyroscopeY = static(),
                 gyroscopeZ = static(),
-                altitude = 0.8f + static()
+                altitude = 0.8f + static() / 5
             )
             )
             delay(50.milliseconds)

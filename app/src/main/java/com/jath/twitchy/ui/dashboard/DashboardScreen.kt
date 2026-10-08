@@ -1,6 +1,5 @@
 package com.jath.twitchy.ui.dashboard
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -48,82 +47,88 @@ fun DashboardScreen(
             .fillMaxSize()
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        Text("Live Data",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(16.dp))
+        Card() {
+            Text(
+                "Live Data",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 8.dp, bottom = 8.dp, top = 8.dp)
+            )
 
-        Row(
-            modifier = Modifier.fillMaxWidth()
-                .height(IntrinsicSize.Max)
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-            ) {
-                Text("Accel: %.2f m/s^2".format(state.acceleration),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                MotionGraph(
-                    newValue = state.acceleration,
-                    graphColor = Color.Red,
-                    modifier = Modifier
-                        .height(75.dp)
-                        .fillMaxWidth()
-                        .border(width = 2.dp, color = Color.Black),
-                    minValue = EARTH_GRAVITY,
-                    maxValue = 25f
-                )
-            }
-            Spacer(modifier = Modifier.width(4.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth()
+                    .height(IntrinsicSize.Max)
+                    .padding(start = 8.dp, bottom = 8.dp, top = 8.dp, end = 8.dp)
 
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
             ) {
-                Text("Gyro: %.2f rad/s".format(state.rotation),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                MotionGraph(
-                    newValue = state.rotation,
-                    graphColor = Color.Blue,
+                Column(
                     modifier = Modifier
-                        .height(75.dp)
-                        .fillMaxWidth()
-                        .border(width = 2.dp, color = Color.Black),
-                    minValue = 0f,
-                    maxValue = 20f
-                )
-            }
-            Spacer(modifier = Modifier.width(4.dp))
+                        .weight(1f)
+                        .fillMaxHeight()
+                ) {
+                    Text(
+                        "Accel: %.2f m/s^2".format(state.acceleration),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    MotionGraph(
+                        newValue = state.acceleration,
+                        graphColor = Color.Red,
+                        modifier = Modifier
+                            .height(75.dp)
+                            .fillMaxWidth(),
+                        minValue = EARTH_GRAVITY / 2,
+                        maxValue = 25f
+                    )
+                }
+                Spacer(modifier = Modifier.width(4.dp))
 
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-            ) {
-                Text("Baro: %.2f m".format(state.altitude),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                MotionGraph(
-                    newValue = state.altitude,
-                    graphColor = Color.Yellow,
+                Column(
                     modifier = Modifier
-                        .height(75.dp)
-                        .fillMaxWidth()
-                        .border(width = 2.dp, color = Color.Black),
-                    minValue = 0f,
-                    maxValue = 4f
-                )
+                        .weight(1f)
+                        .fillMaxHeight()
+                ) {
+                    Text(
+                        "Gyro: %.2f rad/s".format(state.rotation),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    MotionGraph(
+                        newValue = state.rotation,
+                        graphColor = Color.Blue,
+                        modifier = Modifier
+                            .height(75.dp)
+                            .fillMaxWidth(),
+                        minValue = -5f,
+                        maxValue = 20f
+                    )
+                }
+                Spacer(modifier = Modifier.width(4.dp))
+
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                ) {
+                    Text(
+                        "Baro: %.2f m".format(state.altitude),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    MotionGraph(
+                        newValue = state.altitude,
+                        graphColor = Color.Yellow,
+                        modifier = Modifier
+                            .height(75.dp)
+                            .fillMaxWidth(),
+                        minValue = 0f,
+                        maxValue = 4f
+                    )
+                }
             }
         }
 
+        Spacer(modifier = Modifier.height(16.dp))
         Column(
             modifier = Modifier
                 .weight(1f)
