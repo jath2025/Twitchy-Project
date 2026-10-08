@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.flow
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
 
+// Gen AI (Claude) helped me with making the mock data less chaotic,
+// it suggested adding noise (my static()) and "spiking" the data at certain times to create falls.
 class MockDataSource : SensorDataSource {
     override fun getSensorData() : Flow<SensorData> = flow {
         while (true) {
@@ -33,6 +35,5 @@ class MockDataSource : SensorDataSource {
         }
     }
 
-    private fun static(): Float = Random.nextFloat() - 1f
+    private fun static(): Float = Random.nextFloat() - 0.5f
 }
-// Android Studio's auto complete helped build this class
