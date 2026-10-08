@@ -21,7 +21,8 @@ data class DashboardState(
     val acceleration: Float = EARTH_GRAVITY,
     val rotation: Float = 0f,
     val altitude: Float = BELT_HEIGHT,
-    val status: DashboardStatus = DashboardStatus.MONITORING
+    val status: DashboardStatus = DashboardStatus.MONITORING,
+    val timeSinceFall: Long? = null
 )
 enum class DashboardStatus {
     MONITORING,
@@ -47,12 +48,14 @@ class DashboardViewModel(
     val state: StateFlow<DashboardState> = dataSource.getSensorData().map {
         val lastFall = historyRepository.getHistoryItems().firstOrNull()
         val recentFall = lastFall != null && it.timestamp - lastFall.timestamp.toLong() < STATUS_DURATION_MS
+        val timeSinceFall = lastFall?.let { System.currentTimeMillis() - it.timestamp.toLong() }
 
         DashboardState(
             acceleration = it.totalAcceleration(),
             rotation = it.totalRotation(),
             altitude = it.altitude,
-            status = if (recentFall) DashboardStatus.FALL_DETECTED else DashboardStatus.MONITORING
+            status = if (recentFall) DashboardStatus.FALL_DETECTED else DashboardStatus.MONITORING,
+            timeSinceFall = timeSinceFall
         )
     }
         .stateIn(

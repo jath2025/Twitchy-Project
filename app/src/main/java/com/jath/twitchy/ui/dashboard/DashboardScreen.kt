@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.jath.twitchy.data.formatTimeSinceFall
 
 internal const val EARTH_GRAVITY = 9.81f
 internal const val BELT_HEIGHT = 0.8f
@@ -145,6 +146,14 @@ fun DashboardScreen(
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                         .padding(16.dp)
+                )
+                Text("Time since fall: " + formatTimeSinceFall(state.timeSinceFall),
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp)
                 )
             }
         }
