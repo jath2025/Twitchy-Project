@@ -67,7 +67,7 @@ fun DashboardScreen(
                         .fillMaxHeight()
                 ) {
                     Text(
-                        "Accel: %.2f m/s^2".format(state.acceleration),
+                        "Accel: %.1f m/s²".format(state.acceleration),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -89,7 +89,7 @@ fun DashboardScreen(
                         .fillMaxHeight()
                 ) {
                     Text(
-                        "Gyro: %.2f rad/s".format(state.rotation),
+                        "Rotation: %.1f rad/s".format(state.rotation),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -111,7 +111,7 @@ fun DashboardScreen(
                         .fillMaxHeight()
                 ) {
                     Text(
-                        "Baro: %.2f m".format(state.altitude),
+                        "Height: %.1f m".format(state.altitude),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -135,7 +135,7 @@ fun DashboardScreen(
                 .padding(vertical = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Status:",
+            Text("Status",
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold
             )
