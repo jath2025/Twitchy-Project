@@ -15,7 +15,7 @@ import com.jath.twitchy.data.historydata.HistoryRepository
 // Android developer's documentation was used as a reference for building the viewmodel and state.
 // sources: https://developer.android.com/topic/libraries/architecture/viewmodel/viewmodel-factories
 
-private const val STATUS_DURATION_MS = 5000L
+private const val STATUS_DURATION_MS = 10_000L
 
 data class DashboardState(
     val acceleration: Float = EARTH_GRAVITY,

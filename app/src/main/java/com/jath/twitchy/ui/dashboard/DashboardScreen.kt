@@ -39,8 +39,8 @@ fun DashboardScreen(
         DashboardStatus.FALL_DETECTED -> "Fall Detected"
     }
     val statusColor = when (state.status) {
-        DashboardStatus.MONITORING -> Color.Green
-        DashboardStatus.FALL_DETECTED -> Color.Red
+        DashboardStatus.MONITORING -> Color(0xFF4DBB50)
+        DashboardStatus.FALL_DETECTED -> Color(0xFFC22727)
     }
 
     Column (
@@ -119,7 +119,7 @@ fun DashboardScreen(
                         .fillMaxWidth()
                         .border(width = 2.dp, color = Color.Black),
                     minValue = 0f,
-                    maxValue = 14f
+                    maxValue = 4f
                 )
             }
         }

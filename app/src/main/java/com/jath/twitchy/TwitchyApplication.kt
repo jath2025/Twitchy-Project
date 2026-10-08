@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-private const val FALL_COOLDOWN_MS = 10_000L
+private const val FALL_COOLDOWN_MS = 5_000L
 
 class TwitchyApplication : Application() {
     val sensorDataSource: SensorDataSource by lazy { MockDataSource() }
