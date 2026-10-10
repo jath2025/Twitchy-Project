@@ -96,7 +96,7 @@ fun HistoryScreen(
                                 )
                             }
                             items(falls, key = { it.id }) { fall ->
-                                FallCard(fall, onDelete = { viewModel.deleteFall(fall.id) })
+                                FallCard(fall, viewModel)
                             }
                         }
                     }
@@ -140,7 +140,9 @@ fun HistoryScreen(
 }
 
 @Composable
-fun FallCard(fall: HistoryItem, onDelete: () -> Unit) {
+fun FallCard(fall: HistoryItem, viewModel: HistoryViewModel) {
+    var deleteFallDialog by rememberSaveable { mutableStateOf(false) }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -151,7 +153,7 @@ fun FallCard(fall: HistoryItem, onDelete: () -> Unit) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column() {
+            Column {
                 Text(formatTime(fall.timestamp.toLong()),
                     modifier = Modifier.padding(start = 8.dp)
                 )
@@ -162,9 +164,31 @@ fun FallCard(fall: HistoryItem, onDelete: () -> Unit) {
                     modifier = Modifier.padding(start = 8.dp)
                 )
             }
-            IconButton( onClick = onDelete ) {
+            IconButton( onClick = { deleteFallDialog = true } ) {
                 Icon(Icons.Default.Delete, contentDescription = "Delete fall")
             }
         }
+    }
+    // Structure for AlertDialog inspired by Android Developers documentation:
+    // https://developer.android.com/develop/ui/compose/components/dialog
+    if (deleteFallDialog) {
+        AlertDialog(
+            title = { Text("Delete fall?") },
+            text = { Text("The fall will be deleted, and cannot be restored!") },
+            onDismissRequest = { deleteFallDialog = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    viewModel.deleteFall(fall.id)
+                    deleteFallDialog = false
+                }) {
+                    Text("Confirm")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { deleteFallDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
     }
 }
