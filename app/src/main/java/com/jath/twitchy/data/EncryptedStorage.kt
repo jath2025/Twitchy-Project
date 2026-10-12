@@ -3,6 +3,7 @@ package com.jath.twitchy.data
 import android.content.Context
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import android.util.Log
 import java.io.File
 import java.security.KeyStore
 import javax.crypto.Cipher
@@ -60,6 +61,7 @@ class EncryptedStorage(private val context: Context) {
         return try {
             decrypt(file.readBytes())
         } catch (e: Exception) {
+            Log.e("EncryptedStorage", "Error decrypting file", e)
             null
         }
     }
