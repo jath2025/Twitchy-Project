@@ -153,16 +153,12 @@ fun FallCard(fall: HistoryItem, viewModel: HistoryViewModel) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column {
-                Text(formatTime(fall.timestamp.toLong()),
-                    modifier = Modifier.padding(start = 8.dp)
-                )
-                Text("Acceleration %.1f m/s^2  Rotation %.1f rad/s".format(fall.acceleration, fall.rotation),
-                    modifier = Modifier.padding(start = 8.dp)
-                )
-                Text("Height %.1f m".format(fall.altitude),
-                    modifier = Modifier.padding(start = 8.dp)
-                )
+            Column (
+                modifier = Modifier.padding(8.dp)
+            ) {
+                Text(formatTime(fall.timestamp.toLong()))
+                Text("Acceleration %.1f m/s^2  Rotation %.1f rad/s".format(fall.acceleration, fall.rotation))
+                Text("Height %.1f m".format(fall.altitude))
             }
             IconButton( onClick = { deleteFallDialog = true } ) {
                 Icon(Icons.Default.Delete, contentDescription = "Delete fall")
