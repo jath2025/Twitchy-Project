@@ -1,6 +1,10 @@
 package com.jath.twitchy.ui.dashboard
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -52,6 +57,33 @@ fun DashboardScreen(
         animationSpec = tween(durationMillis = 400)
     )
 
+    // "Breathing" animation for the status, changes based on status.
+    // I discussed with Gen AI (Claude) what I could do to make my dashboard more feel more alive, and it suggested a breathing animation.
+    // The code itself is written by me and the help of Android Developers documentation:
+    // https://developer.android.com/develop/ui/compose/animation/value-based#rememberinfinitetransition,
+    // https://developer.android.com/develop/ui/compose/graphics/draw/modifiers#graphicsLayer
+    val fallDetected = state.status == DashboardStatus.FALL_DETECTED
+    val calmBreathe by rememberInfiniteTransition()
+        .animateFloat(
+        initialValue = 1f,
+        targetValue = 1.05f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(3000),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "calmBreatheAnimation"
+    )
+    val fastBreathe by rememberInfiniteTransition()
+        .animateFloat(
+        initialValue = 1f,
+        targetValue = 1.05f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1000),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "fastBreatheAnimation"
+    )
+    val breathe = if (fallDetected) fastBreathe else calmBreathe
 
     Column (
         modifier = Modifier
@@ -138,8 +170,8 @@ fun DashboardScreen(
                 }
             }
         }
+        Spacer(modifier = Modifier.height(8.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
         Column(
             modifier = Modifier
                 .padding(vertical = 8.dp),
@@ -149,7 +181,8 @@ fun DashboardScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
-                    .height(150.dp),
+                    .height(150.dp)
+                    .graphicsLayer { scaleX = breathe; scaleY = breathe },
                     colors = CardDefaults.cardColors(containerColor = animatedColorSwitch),
                     elevation = CardDefaults.cardElevation(4.dp)
             ) {
@@ -170,6 +203,8 @@ fun DashboardScreen(
                 )
             }
         }
+        Spacer(modifier = Modifier.height(8.dp))
+
         Card {
         Column(
             modifier = Modifier
