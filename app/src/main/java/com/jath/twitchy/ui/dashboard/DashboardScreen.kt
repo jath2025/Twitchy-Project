@@ -1,5 +1,9 @@
 package com.jath.twitchy.ui.dashboard
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -23,7 +27,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.jath.twitchy.data.formatTime
 import com.jath.twitchy.data.formatTimeSinceFall
+import com.jath.twitchy.data.historydata.HistoryItem
 
 internal const val EARTH_GRAVITY = 9.81f
 internal const val BELT_HEIGHT = 0.8f
@@ -41,13 +47,18 @@ fun DashboardScreen(
         DashboardStatus.MONITORING -> Color(0xFF4DBB50)
         DashboardStatus.FALL_DETECTED -> Color(0xFFC22727)
     }
+    val animatedColorSwitch by animateColorAsState(
+        targetValue = statusColor,
+        animationSpec = tween(durationMillis = 400)
+    )
+
 
     Column (
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        Card() {
+        Card {
             Text(
                 "Live Data",
                 fontSize = 24.sp,
@@ -75,7 +86,7 @@ fun DashboardScreen(
                         newValue = state.acceleration,
                         graphColor = Color.Red,
                         modifier = Modifier
-                            .height(75.dp)
+                            .height(90.dp)
                             .fillMaxWidth(),
                         minValue = EARTH_GRAVITY / 2,
                         maxValue = 25f
@@ -97,7 +108,7 @@ fun DashboardScreen(
                         newValue = state.rotation,
                         graphColor = Color.Blue,
                         modifier = Modifier
-                            .height(75.dp)
+                            .height(90.dp)
                             .fillMaxWidth(),
                         minValue = -5f,
                         maxValue = 20f
@@ -119,7 +130,7 @@ fun DashboardScreen(
                         newValue = state.altitude,
                         graphColor = Color.Yellow,
                         modifier = Modifier
-                            .height(75.dp)
+                            .height(90.dp)
                             .fillMaxWidth(),
                         minValue = 0f,
                         maxValue = 4f
@@ -131,26 +142,23 @@ fun DashboardScreen(
         Spacer(modifier = Modifier.height(16.dp))
         Column(
             modifier = Modifier
-                .weight(1f)
                 .padding(vertical = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Status",
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold
-            )
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                    colors = CardDefaults.cardColors(containerColor = statusColor)
+                    .padding(vertical = 8.dp)
+                    .height(150.dp),
+                    colors = CardDefaults.cardColors(containerColor = animatedColorSwitch),
+                    elevation = CardDefaults.cardElevation(4.dp)
             ) {
                 Text(statusText,
-                    fontSize = 32.sp,
+                    fontSize = 36.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
-                        .padding(16.dp)
+                        .padding(top = 40.dp)
                 )
                 Text("Time since fall: " + formatTimeSinceFall(state.timeSinceFall),
                     fontSize = 24.sp,
@@ -158,8 +166,59 @@ fun DashboardScreen(
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 8.dp)
+                        .padding(top = 8.dp)
                 )
+            }
+        }
+        Card {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+        ) {
+            Text("Recent Falls",
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(start = 8.dp)
+            )
+            RecentFallsCard(state.recentFalls)
+        }
+            }
+    }
+}
+@Composable
+fun RecentFallsCard(falls: List<HistoryItem>) {
+    if(falls.isEmpty()) {
+        Text("No recent falls",
+            modifier = Modifier
+                .padding(start = 8.dp, top = 8.dp, end = 8.dp)
+        )
+    } else {
+        falls.forEach { fall ->
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 8.dp, top = 8.dp, end = 8.dp),
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = Color.LightGray),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column (
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                    ) {
+                        Text(formatTime(fall.timestamp.toLong()))
+                        Text("Acceleration %.1f m/s²  Rotation %.1f rad/s".format(fall.acceleration, fall.rotation))
+                        Text("Height %.1f m".format(fall.altitude))
+                    }
+                }
             }
         }
     }

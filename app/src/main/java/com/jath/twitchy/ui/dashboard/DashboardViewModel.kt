@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import com.jath.twitchy.data.historydata.HistoryItem
 import com.jath.twitchy.data.historydata.HistoryRepository
 
 // Android developer's documentation was used as a reference for building the viewmodel and state.
@@ -22,7 +23,8 @@ data class DashboardState(
     val rotation: Float = 0f,
     val altitude: Float = BELT_HEIGHT,
     val status: DashboardStatus = DashboardStatus.MONITORING,
-    val timeSinceFall: Long? = null
+    val timeSinceFall: Long? = null,
+    val recentFalls: List<HistoryItem> = emptyList()
 )
 enum class DashboardStatus {
     MONITORING,
@@ -55,7 +57,8 @@ class DashboardViewModel(
             rotation = it.totalRotation(),
             altitude = it.altitude,
             status = if (recentFall) DashboardStatus.FALL_DETECTED else DashboardStatus.MONITORING,
-            timeSinceFall = timeSinceFall
+            timeSinceFall = timeSinceFall,
+            recentFalls = historyRepository.getHistoryItems().take(4)
         )
     }
         .stateIn(
