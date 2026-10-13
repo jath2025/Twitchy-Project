@@ -15,10 +15,6 @@ class HistoryRepository(private val storage: EncryptedStorage) {
         currId = maxId + 1
     }
 
-    fun addHistoryItem(item: HistoryItem) {
-        historyItems.add(0, item)
-        save()
-    }
     fun createHistoryItem(timestamp: String, acceleration: Float, rotation: Float, altitude: Float): HistoryItem {
         val item = HistoryItem(currId, timestamp, acceleration, rotation, altitude)
         currId++
