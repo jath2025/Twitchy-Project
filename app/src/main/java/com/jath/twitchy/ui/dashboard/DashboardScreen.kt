@@ -8,6 +8,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -17,7 +18,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -25,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
@@ -32,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.jath.twitchy.data.datasource.ConnectionStatus
 import com.jath.twitchy.data.formatTime
 import com.jath.twitchy.data.formatTimeSinceFall
 import com.jath.twitchy.data.historydata.HistoryItem
@@ -56,6 +61,17 @@ fun DashboardScreen(
         targetValue = statusColor,
         animationSpec = tween(durationMillis = 400)
     )
+    val connectionStatus by viewModel.connectionStatus.collectAsStateWithLifecycle()
+    val connectionText = when (connectionStatus) {
+        ConnectionStatus.DISCONNECTED -> "Disconnected"
+        ConnectionStatus.CONNECTING -> "Connecting"
+        ConnectionStatus.CONNECTED -> "Connected"
+    }
+    val connectionColor = when (connectionStatus) {
+        ConnectionStatus.DISCONNECTED -> Color(0xFFC22727)
+        ConnectionStatus.CONNECTING -> Color(0xFFEECC1A)
+        ConnectionStatus.CONNECTED -> Color(0xFF4DBB50)
+    }
 
     // "Breathing" animation for the status, changes based on status.
     // I discussed with Gen AI (Claude) what I could do to make my dashboard more feel more alive, and it suggested a breathing animation.
@@ -91,15 +107,36 @@ fun DashboardScreen(
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         Card {
-            Text(
-                "Live Data",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 8.dp, bottom = 8.dp, top = 8.dp)
-            )
+            Row(
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    "Dashboard",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Box(
+                    modifier = Modifier
+                        .size(10.dp)
+                        .clip(CircleShape)
+                        .background(color = connectionColor)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    connectionText,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(end = 8.dp)
+                )
+            }
+
 
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .height(IntrinsicSize.Max)
                     .padding(start = 8.dp, bottom = 8.dp, top = 8.dp, end = 8.dp)
 
@@ -190,7 +227,8 @@ fun DashboardScreen(
                     fontSize = 36.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .padding(top = 40.dp)
                 )
                 Text("Time since fall: " + formatTimeSinceFall(state.timeSinceFall),

@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import com.jath.twitchy.data.datasource.ConnectionStatus
 import com.jath.twitchy.data.historydata.HistoryItem
 import com.jath.twitchy.data.historydata.HistoryRepository
 
@@ -35,6 +36,8 @@ class DashboardViewModel(
     dataSource: SensorDataSource,
     private val historyRepository: HistoryRepository
 ) : ViewModel() {
+    val connectionStatus = dataSource.connectionStatus
+
     companion object {
         val Factory = viewModelFactory {
             initializer {

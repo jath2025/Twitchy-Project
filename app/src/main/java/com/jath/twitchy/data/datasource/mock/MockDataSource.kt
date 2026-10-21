@@ -1,9 +1,12 @@
 package com.jath.twitchy.data.datasource.mock
 
+import com.jath.twitchy.data.datasource.ConnectionStatus
 import com.jath.twitchy.data.datasource.SensorData
 import com.jath.twitchy.data.datasource.SensorDataSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
@@ -11,6 +14,9 @@ import kotlin.time.Duration.Companion.milliseconds
 // Gen AI (Claude) helped me with making the mock data less chaotic,
 // it suggested adding noise (my static()) and "spiking" the data at certain times to create falls.
 class MockDataSource : SensorDataSource {
+    // Hardcoded "Connected" for MockDataSource
+    override val connectionStatus: StateFlow<ConnectionStatus> = MutableStateFlow(ConnectionStatus.CONNECTED)
+
     override fun getSensorData() : Flow<SensorData> = flow {
         while (true) {
             val currTime = System.currentTimeMillis()
