@@ -51,7 +51,7 @@
   - Android Studio.
   - Android SDK 37 (Android Studio may offer you to install this when you install Android Studio).
   - JDK 17 or higher.
-  - Android emulator running Android 8.0 (API 26) or higher, or a physical device with the same specs.
+  - Android emulator running Android 12 (API 31) or higher, or a physical device with the same specs.
 
 - **Running**
   - Clone the project from GitHub (git clone https://github.com/jath/pa1414-tchy-frg-jath25.git).
