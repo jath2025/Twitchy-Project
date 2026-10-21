@@ -20,7 +20,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -28,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -40,6 +44,7 @@ import com.jath.twitchy.data.datasource.ConnectionStatus
 import com.jath.twitchy.data.formatTime
 import com.jath.twitchy.data.formatTimeSinceFall
 import com.jath.twitchy.data.historydata.HistoryItem
+import com.jath.twitchy.ui.theme.TwitchyBlue
 
 internal const val EARTH_GRAVITY = 9.81f
 internal const val BELT_HEIGHT = 0.8f
@@ -105,8 +110,13 @@ fun DashboardScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp, vertical = 8.dp)
+            .verticalScroll(rememberScrollState())
     ) {
-        Card {
+        Card(
+            colors = CardDefaults.cardColors(containerColor = Color(0xFF415260),
+                contentColor = Color.White
+            )
+        ) {
             Row(
                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -148,15 +158,18 @@ fun DashboardScreen(
                 ) {
                     Text(
                         "Accel: %.1f m/s²".format(state.acceleration),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        modifier = Modifier.padding(start = 8.dp)
                     )
                     MotionGraph(
                         newValue = state.acceleration,
                         graphColor = Color.Red,
                         modifier = Modifier
                             .height(90.dp)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(16.dp)),
                         minValue = EARTH_GRAVITY / 2,
                         maxValue = 25f
                     )
@@ -170,15 +183,18 @@ fun DashboardScreen(
                 ) {
                     Text(
                         "Rotation: %.1f rad/s".format(state.rotation),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        modifier = Modifier.padding(start = 8.dp)
                     )
                     MotionGraph(
                         newValue = state.rotation,
                         graphColor = Color.Blue,
                         modifier = Modifier
                             .height(90.dp)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(16.dp)),
                         minValue = -5f,
                         maxValue = 20f
                     )
@@ -192,15 +208,18 @@ fun DashboardScreen(
                 ) {
                     Text(
                         "Height: %.1f m".format(state.altitude),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        modifier = Modifier.padding(start = 8.dp)
                     )
                     MotionGraph(
                         newValue = state.altitude,
                         graphColor = Color.Yellow,
                         modifier = Modifier
                             .height(90.dp)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(16.dp)),
                         minValue = 0f,
                         maxValue = 4f
                     )
@@ -227,6 +246,7 @@ fun DashboardScreen(
                     fontSize = 36.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
+                    color = Color.White,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 40.dp)
@@ -235,6 +255,7 @@ fun DashboardScreen(
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
+                    color = Color.White,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 8.dp)
@@ -246,7 +267,7 @@ fun DashboardScreen(
         Card {
         Column(
             modifier = Modifier
-                .weight(1f)
+                .background(color = TwitchyBlue)
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
         ) {
@@ -273,12 +294,11 @@ fun RecentFallsCard(falls: List<HistoryItem>) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 8.dp, top = 8.dp, end = 8.dp),
+                    .padding(start = 8.dp, top = 8.dp, end = 8.dp)
             ) {
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .background(color = Color.LightGray),
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {

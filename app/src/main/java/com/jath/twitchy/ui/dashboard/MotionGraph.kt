@@ -37,7 +37,7 @@ fun MotionGraph(
     Canvas(
         modifier = modifier
             .clip(RoundedCornerShape(4.dp))
-            .background(Color.LightGray))
+            .background(Color(0xFF2E4050)))
     {
         val path = Path()
         history.forEachIndexed { i, value ->

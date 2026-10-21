@@ -61,7 +61,7 @@ class DashboardViewModel(
             altitude = it.altitude,
             status = if (recentFall) DashboardStatus.FALL_DETECTED else DashboardStatus.MONITORING,
             timeSinceFall = timeSinceFall,
-            recentFalls = historyRepository.getHistoryItems().take(4)
+            recentFalls = historyRepository.getHistoryItems().take(3)
         )
     }
         .stateIn(
