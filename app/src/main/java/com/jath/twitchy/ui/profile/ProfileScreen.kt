@@ -6,17 +6,23 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.jath.twitchy.ui.theme.TwitchyBlue
+import com.jath.twitchy.ui.theme.appButtonColors
 
 @Composable
 fun ProfileScreen(
@@ -30,22 +36,23 @@ fun ProfileScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(8.dp)
+            .verticalScroll(rememberScrollState())
     ) {
-        Text(
-            text = "Profile",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-        )
-
         Card(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = TwitchyBlue, contentColor = Color.White)
         ) {
             Column(
                 modifier = Modifier
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                Text(
+                    text = "Profile",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
                 OutlinedTextField(
                     value = profile.name,
                     onValueChange = { viewModel.updateName(it) },
@@ -54,7 +61,8 @@ fun ProfileScreen(
                 Button(
                     onClick = {
                         viewModel.updateName(profile.name)
-                    }
+                    },
+                    colors = appButtonColors()
                 ) {
                     Text("Save Name")
                 }
@@ -65,7 +73,8 @@ fun ProfileScreen(
 
         Card(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = TwitchyBlue, contentColor = Color.White)
         ) {
             Column(
                 modifier = Modifier
@@ -77,7 +86,8 @@ fun ProfileScreen(
                     onClick = {
                         viewModel.recordBaseline()
                     },
-                    enabled = !isRecording
+                    enabled = !isRecording,
+                    colors = appButtonColors()
                 ) {
                     Text(if (isRecording) "Recording..." else "Record Baseline")
                 }

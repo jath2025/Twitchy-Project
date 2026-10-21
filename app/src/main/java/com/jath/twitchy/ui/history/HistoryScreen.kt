@@ -1,4 +1,5 @@
 package com.jath.twitchy.ui.history
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,7 +31,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import com.jath.twitchy.data.historydata.HistoryItem
+import androidx.compose.material3.CardDefaults
+import com.jath.twitchy.ui.theme.TwitchyBlue
+import com.jath.twitchy.ui.theme.appButtonColors
 
 // lazyColumn and the items structure are inspired by Android Developers documentation:
 // https://developer.android.com/develop/ui/compose/lists
@@ -48,6 +53,7 @@ fun HistoryScreen(
     ) {
         if (summary.count != 0) {
             Card(
+                colors = CardDefaults.cardColors(containerColor = Color(0xFF415260), contentColor = Color.White),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
@@ -75,6 +81,7 @@ fun HistoryScreen(
             text = "Fall History",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
+            color = Color.White
         )
         Box(modifier = Modifier.weight(1f)) {
             LazyColumn(
@@ -83,7 +90,7 @@ fun HistoryScreen(
                     .padding(vertical = 8.dp)
             ) {
                 if (viewModel.items.isEmpty()) {
-                    item { Text("No history", fontSize = 18.sp) }
+                    item { Text("No history", fontSize = 18.sp, color = Color.White) }
                 } else {
                     for (severity in listOf("High", "Medium", "Low")) {
                         val falls = viewModel.fallsBySeverity(severity)
@@ -92,7 +99,8 @@ fun HistoryScreen(
                                 Text(
                                     "$severity (${falls.size})",
                                     fontSize = 18.sp,
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White
                                 )
                             }
                             items(falls, key = { it.id }) { fall ->
@@ -109,8 +117,8 @@ fun HistoryScreen(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
             ) {
-                Button(onClick = { viewModel.addFall() }) { Text("Add Fall") }
-                Button(onClick = { clearHistoryDialog = true }) { Text("Clear History") }
+                Button(onClick = { viewModel.addFall() }, colors = appButtonColors()) { Text("Add Fall") }
+                Button(onClick = { clearHistoryDialog = true }, colors = appButtonColors()) { Text("Clear History") }
             }
         }
 
@@ -125,12 +133,12 @@ fun HistoryScreen(
                     TextButton(onClick = {
                         viewModel.clearHistory()
                         clearHistoryDialog = false
-                    }) {
+                    }, colors = appButtonColors()) {
                         Text("Confirm")
                     }
                 },
                 dismissButton = {
-                    TextButton(onClick = { clearHistoryDialog = false }) {
+                    TextButton(onClick = { clearHistoryDialog = false }, colors = appButtonColors()) {
                         Text("Cancel")
                     }
                 }
@@ -176,12 +184,12 @@ fun FallCard(fall: HistoryItem, viewModel: HistoryViewModel) {
                 TextButton(onClick = {
                     viewModel.deleteFall(fall.id)
                     deleteFallDialog = false
-                }) {
+                }, colors = appButtonColors()) {
                     Text("Confirm")
                 }
             },
             dismissButton = {
-                TextButton(onClick = { deleteFallDialog = false }) {
+                TextButton(onClick = { deleteFallDialog = false }, colors = appButtonColors()) {
                     Text("Cancel")
                 }
             }

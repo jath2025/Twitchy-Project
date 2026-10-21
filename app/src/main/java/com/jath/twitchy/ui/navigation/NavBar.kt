@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-
+import androidx.compose.material3.NavigationBarItemDefaults
 @Composable
 fun BottomBar(navController: NavHostController) {
     val screens = listOf(
@@ -19,13 +19,20 @@ fun BottomBar(navController: NavHostController) {
 
     val currentDestination = navController.currentBackStackEntryAsState().value?.destination?.route
 
-    NavigationBar(containerColor = Color(0xFFC7C7C7)) {
+    NavigationBar(containerColor = Color(0xFF2E4050)) {
         for (screen in screens) {
             NavigationBarItem(
                 selected = currentDestination == screen.path,
                 onClick = { navController.navigate(screen.path) },
                 icon = { Icon(screen.icon, contentDescription = screen.title) },
-                label = { Text(screen.title) }
+                label = { Text(screen.title) },
+                colors =  NavigationBarItemDefaults.colors(
+                    selectedIconColor = Color(0xFFFFFFFF),
+                    selectedTextColor = Color(0xFFFFFFFF),
+                    indicatorColor = Color(0xFF000000),
+                    unselectedIconColor = Color(0xFFFFFFFF),
+                    unselectedTextColor = Color(0xFFFFFFFF)
+                )
             )
         }
     }
