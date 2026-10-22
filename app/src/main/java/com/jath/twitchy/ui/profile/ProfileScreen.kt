@@ -1,5 +1,4 @@
 package com.jath.twitchy.ui.profile
-import android.R.attr.fontWeight
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,7 +33,7 @@ fun ProfileScreen(
 ) {
     val profile by viewModel.profile.collectAsStateWithLifecycle()
     val isRecording by viewModel.isRecording.collectAsStateWithLifecycle()
-
+    val focusManager = LocalFocusManager.current // to hide keyboard and unfocus name field
 
     Column(
         modifier = Modifier
@@ -79,6 +79,7 @@ fun ProfileScreen(
                 Button(
                     onClick = {
                         viewModel.updateName(profile.name)
+                        focusManager.clearFocus()
                     },
                     colors = appButtonColors()
                 ) {
