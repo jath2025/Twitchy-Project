@@ -31,7 +31,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -45,6 +44,11 @@ import com.jath.twitchy.data.formatTime
 import com.jath.twitchy.data.formatTimeSinceFall
 import com.jath.twitchy.data.historydata.HistoryItem
 import com.jath.twitchy.ui.theme.TwitchyBlue
+import com.jath.twitchy.ui.theme.TwitchyBlueLight
+import com.jath.twitchy.ui.theme.TwitchyCard
+import com.jath.twitchy.ui.theme.TwitchyGreen
+import com.jath.twitchy.ui.theme.TwitchyRed
+import com.jath.twitchy.ui.theme.TwitchyYellow
 
 internal const val EARTH_GRAVITY = 9.81f
 internal const val BELT_HEIGHT = 0.8f
@@ -59,8 +63,8 @@ fun DashboardScreen(
         DashboardStatus.FALL_DETECTED -> "Fall Detected"
     }
     val statusColor = when (state.status) {
-        DashboardStatus.MONITORING -> Color(0xFF4DBB50)
-        DashboardStatus.FALL_DETECTED -> Color(0xFFC22727)
+        DashboardStatus.MONITORING -> TwitchyGreen
+        DashboardStatus.FALL_DETECTED -> TwitchyRed
     }
     val animatedColorSwitch by animateColorAsState(
         targetValue = statusColor,
@@ -73,9 +77,9 @@ fun DashboardScreen(
         ConnectionStatus.CONNECTED -> "Connected"
     }
     val connectionColor = when (connectionStatus) {
-        ConnectionStatus.DISCONNECTED -> Color(0xFFC22727)
-        ConnectionStatus.CONNECTING -> Color(0xFFEECC1A)
-        ConnectionStatus.CONNECTED -> Color(0xFF4DBB50)
+        ConnectionStatus.DISCONNECTED -> TwitchyRed
+        ConnectionStatus.CONNECTING -> TwitchyYellow
+        ConnectionStatus.CONNECTED -> TwitchyGreen
     }
 
     // "Breathing" animation for the status, changes based on status.
@@ -113,7 +117,7 @@ fun DashboardScreen(
             .verticalScroll(rememberScrollState())
     ) {
         Card(
-            colors = CardDefaults.cardColors(containerColor = Color(0xFF415260),
+            colors = CardDefaults.cardColors(containerColor = TwitchyBlueLight,
                 contentColor = Color.White
             )
         ) {
@@ -294,7 +298,8 @@ fun RecentFallsCard(falls: List<HistoryItem>) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 8.dp, top = 8.dp, end = 8.dp)
+                    .padding(start = 8.dp, top = 8.dp, end = 8.dp),
+                colors = CardDefaults.cardColors(containerColor = TwitchyCard)
             ) {
                 Row(
                     modifier = Modifier

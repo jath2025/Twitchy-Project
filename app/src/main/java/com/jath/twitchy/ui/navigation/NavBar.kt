@@ -29,7 +29,7 @@ fun BottomBar(navController: NavHostController) {
                 colors =  NavigationBarItemDefaults.colors(
                     selectedIconColor = Color(0xFFFFFFFF),
                     selectedTextColor = Color(0xFFFFFFFF),
-                    indicatorColor = Color(0xFF000000),
+                    indicatorColor = Color.DarkGray,
                     unselectedIconColor = Color(0xFFFFFFFF),
                     unselectedTextColor = Color(0xFFFFFFFF)
                 )
