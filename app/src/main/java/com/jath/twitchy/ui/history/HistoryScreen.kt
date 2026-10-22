@@ -65,13 +65,13 @@ fun HistoryScreen(
                     modifier = Modifier.padding(start = 8.dp, bottom = 8.dp, top = 8.dp)
                 )
                 Text(
-                    "Avg Accel: %.1f   Max Accel: %.1f"
-                        .format(summary.avgAcceleration, summary.maxAcceleration),
+                    "Max Acceleration: %.1f m/s²    Max Rotation: %.1f rad/s"
+                        .format(summary.maxAcceleration, summary.maxRotation),
                     modifier = Modifier.padding(start = 8.dp)
                 )
                 Text(
-                    "Avg Rota: %.1f    Max Rota: %.1f"
-                        .format(summary.avgRotation, summary.maxRotation),
+                    "Avg Acceleration: %.1f m/s²    Avg Rotation: %.1f rad/s"
+                        .format(summary.avgAcceleration, summary.avgRotation),
                     modifier = Modifier.padding(start = 8.dp, bottom = 8.dp)
                 )
             }
@@ -117,7 +117,7 @@ fun HistoryScreen(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
             ) {
-                Button(onClick = { viewModel.addFall() }, colors = appButtonColors()) { Text("Add Fall") }
+                Button(onClick = { viewModel.addFall() }, colors = appButtonColors()) { Text("Add Fall") } // Only for Demos, remove for final version
                 Button(onClick = { clearHistoryDialog = true }, colors = appButtonColors()) { Text("Clear History") }
             }
         }
@@ -165,7 +165,7 @@ fun FallCard(fall: HistoryItem, viewModel: HistoryViewModel) {
                 modifier = Modifier.padding(8.dp)
             ) {
                 Text(formatTime(fall.timestamp.toLong()))
-                Text("Acceleration %.1f m/s^2  Rotation %.1f rad/s".format(fall.acceleration, fall.rotation))
+                Text("Acceleration %.1f m/s²  Rotation %.1f rad/s".format(fall.acceleration, fall.rotation))
                 Text("Height %.1f m".format(fall.altitude))
             }
             IconButton( onClick = { deleteFallDialog = true } ) {
