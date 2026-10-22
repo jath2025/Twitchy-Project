@@ -1,6 +1,8 @@
 package com.jath.twitchy.ui.profile
+import android.R.attr.fontWeight
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -56,8 +58,14 @@ fun ProfileScreen(
                 )
                 OutlinedTextField(
                     value = profile.name,
-                    onValueChange = { viewModel.updateName(it) },
-                    label = { Text("Name", fontSize = 16.sp) },
+                    onValueChange = { viewModel.updateName(it.take(12)) },
+                    label = { if (profile.name.length < 12) {
+                        Text("Name", fontSize = 16.sp)
+                    } else {
+                        Text("Name (max 12 characters)", fontSize = 16.sp)
+                    }
+                    },
+                    singleLine = true,
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = Color.White,
                         unfocusedBorderColor = Color.White,
@@ -101,20 +109,43 @@ fun ProfileScreen(
                 ) {
                     Text(if (isRecording) "Recording..." else "Record Baseline")
                 }
+            }
+        }
 
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = TwitchyBlue, contentColor = Color.White)
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
                 val baseline = profile.baseline
                 if (baseline != null) {
-                    Text("Current Baseline:", fontSize = 18.sp)
-                    Text(
-                        "Acceleration: %.2f \n".format(baseline.acceleration) +
-                        "Rotation: %.2f \n".format(baseline.rotation) +
-                        "Height: %.2f ".format(baseline.altitude),
-                        fontSize = 16.sp
-                        )
+                    Text("Current Baseline", fontSize = 24.sp)
+                    CurrentBaseline("Acceleration", "%.1f m/s²".format(baseline.acceleration))
+                    CurrentBaseline("Rotation", "%.1f rad/s".format(baseline.rotation))
+                    CurrentBaseline("Height", "%.1f m".format(baseline.altitude))
                 } else {
-                    Text("No baseline recorded")
+                    Text("No baseline recorded", fontSize = 16.sp)
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun CurrentBaseline(label: String, value: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(label, fontSize = 16.sp)
+        Text(value, fontSize = 16.sp, fontWeight = FontWeight.Bold)
     }
 }
