@@ -84,10 +84,12 @@ fun HistoryScreen(
             fontWeight = FontWeight.Bold,
             color = Color.White
         )
-        Box(modifier = Modifier.weight(1f)) {
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
             LazyColumn(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .weight(1f)
                     .padding(vertical = 8.dp)
             ) {
                 if (viewModel.items.isEmpty()) {
@@ -111,15 +113,11 @@ fun HistoryScreen(
                     }
                 }
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Column(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                Button(onClick = { viewModel.addFall() }, colors = appButtonColors()) { Text("Add Fall") } // Only for Demos, remove for final version
                 Button(onClick = { clearHistoryDialog = true }, colors = appButtonColorsDanger()) { Text("Clear History") }
+                Button(onClick = { viewModel.addFall() }, colors = appButtonColors()) { Text("Add Fall (demo)") } // Only for Demos, remove for final version
             }
         }
 
