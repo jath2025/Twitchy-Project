@@ -58,15 +58,6 @@ class HistoryViewModel(
             }
         }
     }
-    fun addFall() = viewModelScope.launch {
-        val data = dataSource.getSensorData().first()
-        repo.createHistoryItem(
-            data.timestamp.toString(),
-            data.totalAcceleration(),
-            data.totalRotation(),
-            data.altitude
-        )
-    }
     fun deleteFall(id: Int) {
         repo.deleteHistoryItem(id)
     }

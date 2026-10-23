@@ -117,7 +117,6 @@ fun HistoryScreen(
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Button(onClick = { clearHistoryDialog = true }, colors = appButtonColorsDanger()) { Text("Clear History") }
-                Button(onClick = { viewModel.addFall() }, colors = appButtonColors()) { Text("Add Fall (demo)") } // Only for Demos, remove for final version
             }
         }
 
