@@ -44,6 +44,13 @@
 - *Pairing must also use some sort of secure handshake protocol (e.g. BLE passkey pairing or an app-specific token)*
 - *The wearable device should be comfortable and lightweight enough to be worn for at least half a day*
 
+### Project Limitations & Final Status
+
+- The project was planned to include hardware, but due to delays in BTH's purchasing process there was not enough time. Therefore, the fall detection app Twitchy is reliant on mock data.
+- Because of the mock data being the main and only source of data, the fall detection system has not been tested and calibrated for the real world, as it needs real sensor values to be tuned.
+- In firmware/BLE_twitchy.ino there is basic code from a BLE example from Arduino. It was meant to be worked on further, but it was not possible due to hardware limitations.  
+  The firmware works and can send values to a connected mobile device, but the app does not connect to it. You can flash the firmware to a powered XIAO ESP32-C3 and connect it through a BLE app such as LightBlue (app on Google Play Store) and see values being sent.
+- I have created the interface "SensorDataSource" which would make the switch from mock data to real sensor values easier: the screens, fall detection and storage would not need to be changed.
 
 ### User Manual
 
@@ -54,63 +61,19 @@
   - Android emulator running Android 12 (API 31) or higher, or a physical device with the same specs.
 
 - **Running**
-  - Clone the project from GitHub (git clone https://github.com/jath/pa1414-tchy-frg-jath25.git).
-  - Open the folder in Android Studio.
-  - Wait for Gradle to sync (this may take a while).
+  - Unpack the ZIP-folder received.
+  - Open the inner folder which directly includes app/ in Android Studio.
+  - Wait for Gradle to sync, internet connection is required. (this could take a few minutes)
   - Select the preferred device in Android Studio on the left side under the "Device manager" tab.
   - Click the green "play" button in the top bar or press "Shift + F10".
   - The app then builds and launches itself on the device.
   
 - **General information about the app**
   - The app has three different screens, Dashboard, History and Profile.
-    - Dashboard is the screen you are currently on when first starting, it shows the current status, as well as current sensor readings.
-    - History is where you can view the fall history, delete falls, add falls and clear the history. The falls are automatically added and sorted by severity.
+    - Dashboard is the screen you are currently on when first starting, it shows the current status, as well as simulated sensor readings.
+    - History is where you can view the fall history, delete falls and clear the history. The falls are automatically added and sorted by severity.
     - Profile is where you can view and edit your profile, such as recording a baseline calibration or updating your name.
-  - The data (fall history and profile data) is securely stored on the device with the help of AES-GCM encryption.
-  - The app is currently fed mock data in preparation for the hardware setup.
+  - The data (fall history and profile data) is securely stored on the device with the help of AES-GCM encryption using Android Keystore.
+  - The app is currently fed mock data, see Project Limitations & Final Status for more information.
 
 ---
-
-## Your Backlog
-
-Your backlog lives in two places, working together:
-
-### 1. GitHub Issues (the content)
-
-For every user story, feature, and task, create a GitHub Issue with a clear title and description. Use the issue template provided in this repository (see `.github/ISSUE_TEMPLATE/`).
-
-Write them in this order:
-1. All **user stories** first (format: *"As [a user], I want [action] so that [goal]"*)
-2. Then all **features**
-3. Then all **tasks**
-
-### 2. Project Board (the backlog itself)
-
-Add every Issue to a Project board. The board is your backlog, not the issue text.
-
-Your repository does not come with a board already set up — see **[PROJECT_BOARD.md](PROJECT_BOARD.md)** for step-by-step instructions on creating your board and setting up the required fields (Priority, Estimated Effort, Sprint). 
-
-You'll need a working board by the end of Sprint 1, as Status Report 3 requires it.
-
-
----
-
-## Development
-
-From Week 38 onward:
-- Set up your development environment and start development.
-- You're free to organize your code however works best for you — for example, using `src/` and `docs/` folders, or any other structure. There's no required folder layout; 
-- At the end of each sprint, your work will be demonstrated to the customer at that sprint's Demo
-- Keep this README as the one place that always explains how to install and run your project.
-
-
-Your repository must remain **Private** for the entire course. This protects your customer's requirements and your own work.
-
----
-
-## Documenting Your Project
-
-Once Sprint 2 begins, add a **User Manual** section to this README, covering:
-- **Installing** — what's needed to set up your project locally (dependencies, environment, etc.)
-- **Running** — how to start/execute the application
-
