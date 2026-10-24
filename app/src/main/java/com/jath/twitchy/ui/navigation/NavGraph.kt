@@ -7,9 +7,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.jath.twitchy.ui.dashboard.DashboardScreen
+import com.jath.twitchy.ui.dashboard.DashboardViewModel
 import com.jath.twitchy.ui.history.HistoryScreen
 import com.jath.twitchy.ui.history.HistoryViewModel
-import com.jath.twitchy.ui.dashboard.DashboardViewModel
 import com.jath.twitchy.ui.profile.ProfileScreen
 import com.jath.twitchy.ui.profile.ProfileViewModel
 

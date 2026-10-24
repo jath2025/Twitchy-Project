@@ -1,12 +1,12 @@
 package com.jath.twitchy
 
 import android.app.Application
+import com.jath.twitchy.data.EncryptedStorage
 import com.jath.twitchy.data.FallDetection
-import com.jath.twitchy.data.historydata.HistoryRepository
 import com.jath.twitchy.data.datasource.SensorDataSource
 import com.jath.twitchy.data.datasource.mock.MockDataSource
+import com.jath.twitchy.data.historydata.HistoryRepository
 import com.jath.twitchy.data.profiledata.ProfileRepository
-import com.jath.twitchy.data.EncryptedStorage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

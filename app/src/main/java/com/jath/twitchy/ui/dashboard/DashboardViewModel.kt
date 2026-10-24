@@ -1,18 +1,17 @@
 package com.jath.twitchy.ui.dashboard
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.jath.twitchy.TwitchyApplication
 import com.jath.twitchy.data.datasource.SensorDataSource
+import com.jath.twitchy.data.historydata.HistoryItem
+import com.jath.twitchy.data.historydata.HistoryRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import com.jath.twitchy.data.datasource.ConnectionStatus
-import com.jath.twitchy.data.historydata.HistoryItem
-import com.jath.twitchy.data.historydata.HistoryRepository
 
 // Android developer's documentation was used as a reference for building the viewmodel and state.
 // sources: https://developer.android.com/topic/libraries/architecture/viewmodel/viewmodel-factories

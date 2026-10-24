@@ -2,16 +2,12 @@ package com.jath.twitchy.ui.history
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.jath.twitchy.TwitchyApplication
-import com.jath.twitchy.data.datasource.SensorDataSource
 import com.jath.twitchy.data.fallSeverity
 import com.jath.twitchy.data.historydata.HistoryItem
 import com.jath.twitchy.data.historydata.HistoryRepository
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 
 data class FallSummary(
     val count: Int = 0,
@@ -22,8 +18,7 @@ data class FallSummary(
 )
 
 class HistoryViewModel(
-    private val repo: HistoryRepository,
-    private val dataSource: SensorDataSource
+    private val repo: HistoryRepository
 ) : ViewModel() {
     val items get() = repo.getHistoryItems()
 
@@ -52,8 +47,7 @@ class HistoryViewModel(
             initializer {
                 val application = (this[APPLICATION_KEY] as TwitchyApplication)
                 HistoryViewModel(
-                    application.historyRepository,
-                    application.sensorDataSource
+                    application.historyRepository
                 )
             }
         }
